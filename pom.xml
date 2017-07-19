@@ -12,24 +12,11 @@
             <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20170516</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-            <version>2.8</version>
-        </dependency>
-        
         <!-- TIBCO EMS Start-->
         <dependency>
             <groupId>javax.jms</groupId>
@@ -43,7 +30,6 @@
             <type>jar</type>
         </dependency>
         <!-- TIBCO EMS End-->
-        
         <!-- Mongo Driver Start-->
         <dependency>
             <groupId>org.mongodb</groupId>
