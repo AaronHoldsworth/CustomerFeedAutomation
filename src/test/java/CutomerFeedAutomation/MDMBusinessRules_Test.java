@@ -5,9 +5,6 @@
  */
 package CutomerFeedAutomation;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 import org.bson.Document;
@@ -22,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author TTGAHX
  */
-public class MDMBusinessRulesTestCases {
+public class MDMBusinessRules_Test {
 
     static TestUtilities utilities;
     static EMSConnector emsConnector;
@@ -33,7 +30,7 @@ public class MDMBusinessRulesTestCases {
     EMSMessageHandler emsMessageHandler;
 
 
-    public MDMBusinessRulesTestCases() {
+    public MDMBusinessRules_Test() {
         utilities = new TestUtilities();
         emsConnector = new EMSConnector();
         mongoConnector = new MongoConnector();
