@@ -28,19 +28,10 @@ public class MDMBusinessRulesTestCases {
     static EMSConnector emsConnector;
     static MongoConnector mongoConnector;
     static Properties prop;
+    private HashMap<String, String> properties;
+    private String messageBody;
+    EMSMessageHandler emsMessageHandler;
 
-    public void SaveIdToProp() {
-                try {
-
-            prop.setProperty("LatestId", Integer.toString(latestIdNumber));
-
-            prop.store(new FileOutputStream("config.properties"), null);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    int latestIdNumber;
-    static int lastIdNumber;
 
     public MDMBusinessRulesTestCases() {
         utilities = new TestUtilities();
@@ -51,19 +42,6 @@ public class MDMBusinessRulesTestCases {
         String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
         emsConnector.ConnectToGIP(queueName);
 
-        prop = new Properties();
-        FileInputStream input = null;
-
-        try {
-            input = new FileInputStream("config.properties");
-
-            prop.load(input);
-
-            latestIdNumber = Integer.parseInt(prop.getProperty("LatestId"));
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @BeforeClass
@@ -81,51 +59,39 @@ public class MDMBusinessRulesTestCases {
 
     @After
     public void tearDown() {
-        SaveIdToProp();
     }
 
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
-        String file = utilities.LoadTestFile("C:\\AutomationXmls\\MDM01_AllMandatoryElements.xml");
-        String[] splitFile = file.split("\\$TextBody:");
-        String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
-        HashMap<String, String> properties = utilities.CreatePropertiesHashMap(propertyList);
-        String messageBody = splitFile[1].trim();
-        String systemId = "AUTO" + Integer.toString(latestIdNumber);
-        messageBody = messageBody.replaceAll(":systemid:", systemId);
+
+        String systemId = utilities.GenerateGuid();
+        emsMessageHandler = new EMSMessageHandler("C:\\AutomationXmls\\MDM01_AllMandatoryElements.xml", systemId);
+        
+        properties = emsMessageHandler.Properties();
+        messageBody = emsMessageHandler.MessageBody();
+        
         emsConnector.SendEmsMessageToC4C(properties, messageBody);
 
-        try {
-            Thread.sleep(1000);                 //1000 milliseconds is one second.
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
+        utilities.WaitForMessage();
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
         assertNotNull(record);
-        latestIdNumber++;
 
     }
 
     @Test
     public void UK_MDM_01_RecordMissingTitle() {
-        String file = utilities.LoadTestFile("C:\\AutomationXmls\\MDM01_MissingTitle.xml");
-        String[] splitFile = file.split("\\$TextBody:");
-        String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
-        HashMap<String, String> properties = utilities.CreatePropertiesHashMap(propertyList);
-        String messageBody = splitFile[1].trim();
-        String systemId = "AUTO" + Integer.toString(latestIdNumber);
-        messageBody = messageBody.replaceAll(":systemid:", systemId);
+        String systemId = utilities.GenerateGuid();
+        emsMessageHandler = new EMSMessageHandler("C:\\AutomationXmls\\MDM01_MissingTitle.xml", systemId);
+        
+        properties = emsMessageHandler.Properties();
+        messageBody = emsMessageHandler.MessageBody();
+        
         emsConnector.SendEmsMessageToC4C(properties, messageBody);
 
-        try {
-            Thread.sleep(1000);                 //1000 milliseconds is one second.
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
+        utilities.WaitForMessage();
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
         assertNull(record);
-        latestIdNumber++;
     }
 }

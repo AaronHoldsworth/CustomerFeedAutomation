@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  *
@@ -52,5 +53,21 @@ public class TestUtilities {
             System.out.println(e.getMessage());
         }
         return fileAsString;
+    }
+    
+    public String GenerateGuid()
+    {
+        UUID guid = UUID.randomUUID();
+        String id = guid.toString();
+        
+        return id;
+    }
+
+    void WaitForMessage() {
+                try {
+            Thread.sleep(1000);                 //1000 milliseconds is one second.
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
