@@ -30,7 +30,7 @@ public class EMSConnector {
     private MessageProducer sender = null;
     private Queue queue = null;
 
-    void ConnectToGIP(String queueName) {
+    public void ConnectToGIP(String queueName) {
 
         try {
             factory = new com.tibco.tibjms.TibjmsQueueConnectionFactory(serverUrl);
@@ -50,7 +50,7 @@ public class EMSConnector {
         }
     }
 
-    void SendEmsMessageToC4C(HashMap<String, String> properties, String messageBody) {
+    public void SendEmsMessageToC4C(HashMap<String, String> properties, String messageBody) {
         try {
             
             TextMessage message = session.createTextMessage();

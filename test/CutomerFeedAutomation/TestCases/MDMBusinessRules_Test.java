@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CutomerFeedAutomation;
+package CutomerFeedAutomation.TestCases;
 
+import CutomerFeedAutomation.EMSConnector;
+import CutomerFeedAutomation.TestUtils.EMSMessageHandler;
+import CutomerFeedAutomation.MongoConnector;
+import CutomerFeedAutomation.TestUtils.TestUtilities;
 import java.util.HashMap;
 import java.util.Properties;
 import org.bson.Document;

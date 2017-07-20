@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CutomerFeedAutomation;
+package CutomerFeedAutomation.TestUtils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -63,7 +63,7 @@ public class TestUtilities {
         return id;
     }
 
-    void WaitForMessage() {
+    public void WaitForMessage() {
                 try {
             Thread.sleep(1000);                 //1000 milliseconds is one second.
         } catch (InterruptedException ex) {

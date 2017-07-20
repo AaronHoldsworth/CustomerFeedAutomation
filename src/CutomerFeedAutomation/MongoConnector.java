@@ -58,7 +58,7 @@ public class MongoConnector {
 
     }
 
-    Document getMongoRecordByMasterId(String masterId) {
+    public Document getMongoRecordByMasterId(String masterId) {
 
         String key = "customer.customerId.masterKey.id";
 
@@ -67,7 +67,7 @@ public class MongoConnector {
         return _record;
     }
 
-    Document getMongoRecordBySourceId(String sourceId) {
+    public Document getMongoRecordBySourceId(String sourceId) {
 
         String key = "customer.customerId.sourceKeys.keies.id";
 
