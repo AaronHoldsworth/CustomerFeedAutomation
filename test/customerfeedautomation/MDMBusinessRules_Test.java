@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CutomerFeedAutomation;
+package customerfeedautomation;
 
+import customerfeedautomation.MongoConnector;
+import customerfeedautomation.EMSConnector;
 import java.util.HashMap;
 import java.util.Properties;
 import org.bson.Document;
