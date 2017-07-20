@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customerfeedautomation;
+package CutomerFeedAutomation;
 
-import customerfeedautomation.MongoConnector;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.json.JSONArray;

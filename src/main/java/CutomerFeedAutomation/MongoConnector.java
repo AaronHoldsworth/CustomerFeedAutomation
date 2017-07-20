@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customerfeedautomation;
+package CutomerFeedAutomation;
 
 import com.mongodb.Block;
 import com.mongodb.MongoClient;

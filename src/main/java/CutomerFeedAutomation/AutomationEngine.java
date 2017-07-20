@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customerfeedautomation;
+package CutomerFeedAutomation;
 
 /**
  *
  * @author TTGAHX
  */
-public class CustomerFeedAutomation1 {
-
-    /**
-     * @param args the command line arguments
-     */
+public class AutomationEngine {
     public static void main(String[] args) {
-        // TODO code application logic here
-    }
     
+    }
 }
