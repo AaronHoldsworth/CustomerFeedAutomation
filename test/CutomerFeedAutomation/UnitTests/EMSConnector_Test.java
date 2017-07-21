@@ -10,6 +10,7 @@ import CutomerFeedAutomation.TestUtils.TestUtilities;
 import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,7 +48,9 @@ public class EMSConnector_Test {
     @Test
     public void TestConnectToGIP() {
         String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
-        emsConnector.ConnectToGIP(queueName);
+        boolean connectionSuccess = emsConnector.ConnectToGIP(queueName);
+
+        assertTrue(connectionSuccess);
     }
 
     @Test
@@ -58,10 +61,9 @@ public class EMSConnector_Test {
         String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
         HashMap<String, String> properties = tu.CreatePropertiesHashMap(propertyList);
         String messageBody = splitFile[1].trim();
-        emsConnector.SendEmsMessageToC4C(properties, messageBody);
+        boolean messageSuccess = emsConnector.SendEmsMessageToC4C(properties, messageBody);
+
+        assertTrue(messageSuccess);
     }
-
-    
-
 
 }

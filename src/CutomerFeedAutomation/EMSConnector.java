@@ -75,7 +75,9 @@ public class EMSConnector {
             sender.send(message);
 
             connection.close();
-        } catch (JMSException e) {
+        } 
+        
+        catch (JMSException|NullPointerException e) {
             System.out.println(e.getMessage());
             
             messageSent = false;

@@ -65,6 +65,16 @@ public class MDMBusinessRules_Test {
         messageSent = emsConnector.SendEmsMessageToC4C(properties, messageBody);
     }
 
+    private void CheckTibcoSuccess() {
+        if (!connectionSuccessful) {
+            fail("Failed to create TIBCO Connection");
+        } else {
+            if (!messageSent) {
+                fail("Message Not Sent to TIBCO");
+            }
+        }
+    }
+
     @BeforeClass
     public static void setUpClass() {
     }
@@ -98,14 +108,9 @@ public class MDMBusinessRules_Test {
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
-        if (!messageSent) {
-            fail("Message Not Sent to TIBCO");
-        } else if (!connectionSuccessful) {
-            fail("Connection failed to create");
-        } else {
-            assertNotNull(record);
-            testWasSuccesful = (record != null);
-        }
+        CheckTibcoSuccess();
+        assertNotNull(record);
+        testWasSuccesful = (record != null);
     }
 
     @Test
@@ -120,14 +125,53 @@ public class MDMBusinessRules_Test {
 
         assertNull(record);
 
-        if (!messageSent) {
-            fail("Message Not Sent to TIBCO");
-        } else if (!connectionSuccessful) {
-            fail("Connection failed to create");
-        } else {
-            assertNotNull(record);
-            testWasSuccesful = (record == null);
-        }
+        CheckTibcoSuccess();
+        assertNotNull(record);
+        testWasSuccesful = (record == null);
+    }
+
+    public void UK_MDM_02_MissingFirstNameOnEmit() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+    }
+
+    public void UK_MDM_02_MissingLastNameOnEmit() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+    }
+
+    public void UK_MDM_04_RemoveNonAlphanumericCharactersFromFirstName() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+    }
+
+    public void UK_MDM_04_RemoveNonAlphanumericCharactersFromLastName() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
     }
 
 }
