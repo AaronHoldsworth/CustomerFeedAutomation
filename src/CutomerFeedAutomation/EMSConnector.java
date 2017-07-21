@@ -30,8 +30,9 @@ public class EMSConnector {
     private MessageProducer sender = null;
     private Queue queue = null;
 
-    public void ConnectToGIP(String queueName) {
+    public boolean ConnectToGIP(String queueName) {
 
+        boolean connectionSuccessful = true;
         try {
             factory = new com.tibco.tibjms.TibjmsQueueConnectionFactory(serverUrl);
 
@@ -47,10 +48,16 @@ public class EMSConnector {
 
         } catch (JMSException e) {
             System.out.println(e.getMessage());
+            connectionSuccessful = false;
         }
+        
+        return connectionSuccessful;
     }
 
-    public void SendEmsMessageToC4C(HashMap<String, String> properties, String messageBody) {
+    public boolean SendEmsMessageToC4C(HashMap<String, String> properties, String messageBody) {
+        
+        boolean messageSent = true;
+        
         try {
             
             TextMessage message = session.createTextMessage();
@@ -70,6 +77,10 @@ public class EMSConnector {
             connection.close();
         } catch (JMSException e) {
             System.out.println(e.getMessage());
+            
+            messageSent = false;
         }
+        
+        return messageSent;
     }
 }

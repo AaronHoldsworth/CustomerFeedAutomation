@@ -13,7 +13,6 @@ import CutomerFeedAutomation.TestUtils.TestUtilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 import junit.framework.TestResult;
 import org.bson.Document;
 import org.junit.After;
@@ -29,21 +28,21 @@ import static org.junit.Assert.*;
  */
 public class MDMBusinessRules_Test {
 
-    static TestUtilities utilities;
-    static EMSConnector emsConnector;
-    static MongoConnector mongoConnector;
-    static Properties prop;
-    static ResultsGenerator resGen = new ResultsGenerator();
-    ;
+    final TestUtilities utilities;
+    final EMSConnector emsConnector;
+    final MongoConnector mongoConnector;
+    static final ResultsGenerator RES_GEN = new ResultsGenerator();
     private HashMap<String, String> properties;
     private String messageBody;
     private String testCaseName;
     private String testCaseResult;
-    private boolean testWasSuccesful;
+    private boolean testWasSuccesful = false;
     TestResult testResult;
     private String systemId;
     EMSMessageHandler emsMessageHandler;
     static List<String> resultsList = new ArrayList<>();
+    private boolean connectionSuccessful;
+    private boolean messageSent;
 
     public MDMBusinessRules_Test() {
         utilities = new TestUtilities();
@@ -51,8 +50,19 @@ public class MDMBusinessRules_Test {
         mongoConnector = new MongoConnector();
         mongoConnector.getMongoConnection();
         String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
-        emsConnector.ConnectToGIP(queueName);
+        connectionSuccessful = emsConnector.ConnectToGIP(queueName);
 
+    }
+
+    private void CreateMessageForTest(String xmlPath) {
+
+        systemId = utilities.GenerateGuid();
+        emsMessageHandler = new EMSMessageHandler(xmlPath, systemId);
+
+        properties = emsMessageHandler.Properties();
+        messageBody = emsMessageHandler.MessageBody();
+
+        messageSent = emsConnector.SendEmsMessageToC4C(properties, messageBody);
     }
 
     @BeforeClass
@@ -61,7 +71,7 @@ public class MDMBusinessRules_Test {
 
     @AfterClass
     public static void tearDownClass() {
-        resGen.WriteResultsToFile(resultsList);
+        RES_GEN.WriteResultsToFile(resultsList);
     }
 
     @Before
@@ -80,44 +90,44 @@ public class MDMBusinessRules_Test {
 
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
-
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
-        systemId = utilities.GenerateGuid();
-        emsMessageHandler = new EMSMessageHandler("AutomationXmls\\MDM01_AllMandatoryElements.xml", systemId);
-
-        properties = emsMessageHandler.Properties();
-        messageBody = emsMessageHandler.MessageBody();
-
-        emsConnector.SendEmsMessageToC4C(properties, messageBody);
+        CreateMessageForTest("AutomationXmls\\MDM01_AllMandatoryElements.xml");
 
         utilities.WaitForMessage();
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
-        assertNotNull(record);
-
-        testWasSuccesful = (record != null);
+        if (!messageSent) {
+            fail("Message Not Sent to TIBCO");
+        } else if (!connectionSuccessful) {
+            fail("Connection failed to create");
+        } else {
+            assertNotNull(record);
+            testWasSuccesful = (record != null);
+        }
     }
 
     @Test
     public void UK_MDM_01_RecordMissingTitle() {
-
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
-        systemId = utilities.GenerateGuid();
-        emsMessageHandler = new EMSMessageHandler("AutomationXmls\\MDM01_MissingTitle.xml", systemId);
-
-        properties = emsMessageHandler.Properties();
-        messageBody = emsMessageHandler.MessageBody();
-
-        emsConnector.SendEmsMessageToC4C(properties, messageBody);
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
 
         utilities.WaitForMessage();
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
         assertNull(record);
 
-        testWasSuccesful = (record == null);
+        if (!messageSent) {
+            fail("Message Not Sent to TIBCO");
+        } else if (!connectionSuccessful) {
+            fail("Connection failed to create");
+        } else {
+            assertNotNull(record);
+            testWasSuccesful = (record == null);
+        }
     }
+
 }
