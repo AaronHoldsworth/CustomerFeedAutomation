@@ -84,7 +84,7 @@ public class MDMBusinessRules_Test {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
         systemId = utilities.GenerateGuid();
-        emsMessageHandler = new EMSMessageHandler("C:\\AutomationXmls\\MDM01_AllMandatoryElements.xml", systemId);
+        emsMessageHandler = new EMSMessageHandler("AutomationXmls\\MDM01_AllMandatoryElements.xml", systemId);
 
         properties = emsMessageHandler.Properties();
         messageBody = emsMessageHandler.MessageBody();
@@ -106,7 +106,7 @@ public class MDMBusinessRules_Test {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
         systemId = utilities.GenerateGuid();
-        emsMessageHandler = new EMSMessageHandler("C:\\AutomationXmls\\MDM01_MissingTitle.xml", systemId);
+        emsMessageHandler = new EMSMessageHandler("AutomationXmls\\MDM01_MissingTitle.xml", systemId);
 
         properties = emsMessageHandler.Properties();
         messageBody = emsMessageHandler.MessageBody();
