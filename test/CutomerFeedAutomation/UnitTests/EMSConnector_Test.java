@@ -50,7 +50,7 @@ public class EMSConnector_Test {
         String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
         boolean connectionSuccess = emsConnector.ConnectToGIP(queueName);
 
-        assertTrue(connectionSuccess);
+        assertTrue("Could not create TIBCO Connection", connectionSuccess);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class EMSConnector_Test {
         String messageBody = splitFile[1].trim();
         boolean messageSuccess = emsConnector.SendEmsMessageToC4C(properties, messageBody);
 
-        assertTrue(messageSuccess);
+        assertTrue("Could not send message to TIBCO", messageSuccess);
     }
 
 }

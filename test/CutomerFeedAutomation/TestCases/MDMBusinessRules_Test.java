@@ -123,11 +123,61 @@ public class MDMBusinessRules_Test {
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
+        CheckTibcoSuccess();
+        
         assertNull(record);
+        testWasSuccesful = (record == null);
+    }
+
+    @Test
+    public void UK_MDM_01_RecordMissingFirstName() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingFirstName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
         CheckTibcoSuccess();
-        assertNotNull(record);
+
+        assertNull(record);
         testWasSuccesful = (record == null);
+
+    }
+
+    @Test
+    public void UK_MDM_01_RecordMissingLastName() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingLastName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        CheckTibcoSuccess();
+
+        assertNull(record);
+        testWasSuccesful = (record == null);
+
+    }
+
+    @Test
+    public void UK_MDM_01_RecordMissingLContactPoint() {
+        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+
+        CreateMessageForTest("AutomationXmls\\MDM01_MissingContactPoint.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        CheckTibcoSuccess();
+
+        assertNull(record);
+        testWasSuccesful = (record == null);
+
     }
 
     public void UK_MDM_02_MissingFirstNameOnEmit() {
