@@ -14,25 +14,38 @@ import java.util.HashMap;
 public class EMSMessageHandler {
 
     private HashMap<String, String> _properties;
+
     private String _messageBody;
     TestUtilities utilities = new TestUtilities();
 
-    public EMSMessageHandler(String filename, String systemId) {
+    public void CreateEMSMessage(String filename, String systemId) {
         String file = utilities.LoadTestFile(filename);
         String[] splitFile = file.split("\\$TextBody:");
         String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
-        _properties = utilities.CreatePropertiesHashMap(propertyList);
+        _properties = CreatePropertiesHashMap(propertyList);
         _messageBody = splitFile[1].trim();
-        
+
         _messageBody = _messageBody.replaceAll(":systemid:", systemId);
+    }
+
+    public HashMap<String, String> CreatePropertiesHashMap(String[] propertyList) {
+        HashMap<String, String> list = new HashMap<>();
+        for (String property : propertyList) {
+            if (!property.equals("")) {
+                String[] keyValuePair = property.split("\\=");
+                String value = keyValuePair[1].split(":")[1];
+                list.put(keyValuePair[0], value);
+            }
+        }
+
+        return list;
     }
 
     public HashMap<String, String> Properties() {
         return _properties;
     }
-    
-    public String MessageBody()
-    {
+
+    public String MessageBody() {
         return _messageBody;
     }
 

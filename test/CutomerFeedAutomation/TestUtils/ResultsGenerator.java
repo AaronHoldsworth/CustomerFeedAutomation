@@ -20,19 +20,17 @@ import java.util.List;
  */
 public class ResultsGenerator {
 
-    
     private String fileName;
     private String dirPath;
 
     public ResultsGenerator() {
-        
+
         DateFormat df = new SimpleDateFormat("ddMMyyHHmmss");
         Date dateobj = new Date();
         dirPath = "C:\\AutomationResults\\";
         fileName = dirPath + "Results" + df.format(dateobj) + ".csv";
         CreateResultsFolderIfNotExist();
     }
-
 
     public void WriteResultsToFile(List<String> resultsList) {
 
@@ -46,7 +44,7 @@ public class ResultsGenerator {
             }
 
         } catch (IOException e) {
-            
+
         }
 
     }

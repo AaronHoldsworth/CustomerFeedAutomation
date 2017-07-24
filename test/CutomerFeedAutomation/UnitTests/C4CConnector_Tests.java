@@ -17,22 +17,22 @@ import static org.junit.Assert.*;
  * @author t11067
  */
 public class C4CConnector_Tests {
-    
+
     public C4CConnector_Tests() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }

@@ -126,7 +126,6 @@ public class MongoConnector_Test {
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
-
         JSONObject contactPointsObj = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints");
 
         JSONArray contactPoints = contactPointsObj.getJSONArray("contactPoints");

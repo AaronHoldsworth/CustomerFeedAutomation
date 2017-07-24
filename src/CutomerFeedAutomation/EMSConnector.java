@@ -50,24 +50,23 @@ public class EMSConnector {
             System.out.println(e.getMessage());
             connectionSuccessful = false;
         }
-        
+
         return connectionSuccessful;
     }
 
     public boolean SendEmsMessageToC4C(HashMap<String, String> properties, String messageBody) {
-        
+
         boolean messageSent = true;
-        
+
         try {
-            
+
             TextMessage message = session.createTextMessage();
-                    
+
             message.setJMSMessageID("23BA2881");
             message.setJMSTimestamp(System.currentTimeMillis());
             message.setJMSDestination(queue);
             message.setJMSPriority(4);
-            
-            
+
             for (Map.Entry<String, String> property : properties.entrySet()) {
                 message.setStringProperty(property.getKey(), property.getValue());
             }
@@ -75,14 +74,12 @@ public class EMSConnector {
             sender.send(message);
 
             connection.close();
-        } 
-        
-        catch (JMSException|NullPointerException e) {
+        } catch (JMSException | NullPointerException e) {
             System.out.println(e.getMessage());
-            
+
             messageSent = false;
         }
-        
+
         return messageSent;
     }
 }

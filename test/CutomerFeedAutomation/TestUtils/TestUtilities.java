@@ -18,23 +18,7 @@ import java.util.UUID;
  * @author TTGAHX
  */
 public class TestUtilities {
-        
-    
-    public HashMap<String, String> CreatePropertiesHashMap(String[] propertyList) {
-        HashMap<String, String> list = new HashMap<String, String>();
-        for (int i = 0; i < propertyList.length; i++) {
-            if (!propertyList[i].equals("")) {
-                String[] keyValuePair = propertyList[i].split("\\=");
-                
-                String value = keyValuePair[1].split(":")[1];
-                
-                list.put(keyValuePair[0], value);
-            }
-        }
 
-        return list;
-    }
-    
     public String LoadTestFile(String fileName) {
 
         String fileAsString = "";
@@ -54,17 +38,16 @@ public class TestUtilities {
         }
         return fileAsString;
     }
-    
-    public String GenerateGuid()
-    {
+
+    public String GenerateGuid() {
         UUID guid = UUID.randomUUID();
         String id = guid.toString();
-        
+
         return id;
     }
 
     public void WaitForMessage() {
-                try {
+        try {
             Thread.sleep(1000);                 //1000 milliseconds is one second.
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();

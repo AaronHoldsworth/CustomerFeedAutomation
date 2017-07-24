@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  * @author TTGAHX
  */
 public class MDMBusinessRules_Test {
-
+    
     final TestUtilities utilities;
     final EMSConnector emsConnector;
     final MongoConnector mongoConnector;
@@ -43,7 +43,7 @@ public class MDMBusinessRules_Test {
     static List<String> resultsList = new ArrayList<>();
     private boolean connectionSuccessful;
     private boolean messageSent;
-
+    
     public MDMBusinessRules_Test() {
         utilities = new TestUtilities();
         emsConnector = new EMSConnector();
@@ -51,20 +51,20 @@ public class MDMBusinessRules_Test {
         mongoConnector.getMongoConnection();
         String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
         connectionSuccessful = emsConnector.ConnectToGIP(queueName);
-
+        
     }
-
+    
     private void CreateMessageForTest(String xmlPath) {
-
+        
         systemId = utilities.GenerateGuid();
-        emsMessageHandler = new EMSMessageHandler(xmlPath, systemId);
-
+        emsMessageHandler = new EMSMessageHandler();
+        emsMessageHandler.CreateEMSMessage(xmlPath, systemId);
         properties = emsMessageHandler.Properties();
         messageBody = emsMessageHandler.MessageBody();
-
+        
         messageSent = emsConnector.SendEmsMessageToC4C(properties, messageBody);
     }
-
+    
     private void CheckTibcoSuccess() {
         if (!connectionSuccessful) {
             fail("Failed to create TIBCO Connection");
@@ -74,154 +74,154 @@ public class MDMBusinessRules_Test {
             }
         }
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
         RES_GEN.WriteResultsToFile(resultsList);
     }
-
+    
     @Before
     public void setUp() {
-
+        
     }
-
+    
     @After
     public void tearDown() {
         testCaseResult = (testWasSuccesful ? "Pass" : "Fail");
-
+        
         String result = testCaseName + "," + testCaseResult + "," + systemId;
         resultsList.add(result);
-
+        
     }
-
+    
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM01_AllMandatoryElements.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
         CheckTibcoSuccess();
         assertNotNull(record);
         testWasSuccesful = (record != null);
     }
-
+    
     @Test
     public void UK_MDM_01_RecordMissingTitle() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
         CheckTibcoSuccess();
         
         assertNull(record);
         testWasSuccesful = (record == null);
     }
-
+    
     @Test
     public void UK_MDM_01_RecordMissingFirstName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM01_MissingFirstName.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
         CheckTibcoSuccess();
-
+        
         assertNull(record);
         testWasSuccesful = (record == null);
-
+        
     }
-
+    
     @Test
     public void UK_MDM_01_RecordMissingLastName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM01_MissingLastName.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
         CheckTibcoSuccess();
-
+        
         assertNull(record);
         testWasSuccesful = (record == null);
-
+        
     }
-
+    
     @Test
     public void UK_MDM_01_RecordMissingLContactPoint() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM01_MissingContactPoint.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
         CheckTibcoSuccess();
-
+        
         assertNull(record);
         testWasSuccesful = (record == null);
-
+        
     }
-
+    
     public void UK_MDM_02_MissingFirstNameOnEmit() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM02_MissingFirstNameOnEmit.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
     }
-
+    
     public void UK_MDM_02_MissingLastNameOnEmit() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM02_MissingLastNameOnEmit.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
     }
-
+    
     public void UK_MDM_04_RemoveNonAlphanumericCharactersFromFirstName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM04_RemoveNonAlphaFirstName.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
     }
-
+    
     public void UK_MDM_04_RemoveNonAlphanumericCharactersFromLastName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        
         CreateMessageForTest("AutomationXmls\\MDM04_RemoveNonAlphaLastName.xml");
-
+        
         utilities.WaitForMessage();
-
+        
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
+        
     }
-
+    
 }

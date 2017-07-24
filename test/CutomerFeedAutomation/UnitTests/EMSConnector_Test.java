@@ -6,6 +6,7 @@
 package CutomerFeedAutomation.UnitTests;
 
 import CutomerFeedAutomation.EMSConnector;
+import CutomerFeedAutomation.TestUtils.EMSMessageHandler;
 import CutomerFeedAutomation.TestUtils.TestUtilities;
 import java.util.HashMap;
 import org.junit.After;
@@ -22,6 +23,7 @@ import org.junit.Test;
 public class EMSConnector_Test {
 
     static EMSConnector emsConnector;
+    EMSMessageHandler emsHandler;
 
     public EMSConnector_Test() {
         emsConnector = new EMSConnector();
@@ -55,11 +57,13 @@ public class EMSConnector_Test {
 
     @Test
     public void TestSendMessageToC4C() {
+
+        emsHandler = new EMSMessageHandler();
         TestUtilities tu = new TestUtilities();
         String file = tu.LoadTestFile("Test.xml");
         String[] splitFile = file.split("\\$TextBody:");
         String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
-        HashMap<String, String> properties = tu.CreatePropertiesHashMap(propertyList);
+        HashMap<String, String> properties = emsHandler.CreatePropertiesHashMap(propertyList);
         String messageBody = splitFile[1].trim();
         boolean messageSuccess = emsConnector.SendEmsMessageToC4C(properties, messageBody);
 
