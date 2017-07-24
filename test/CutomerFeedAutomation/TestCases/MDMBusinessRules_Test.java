@@ -93,7 +93,7 @@ public class MDMBusinessRules_Test {
     public void tearDown() {
         testCaseResult = (testWasSuccesful ? "Pass" : "Fail");
 
-        String result = testCaseName + ",Result:" + testCaseResult + ",CustomerID:" + systemId;
+        String result = testCaseName + "," + testCaseResult + "," + systemId;
         resultsList.add(result);
 
     }
@@ -183,7 +183,7 @@ public class MDMBusinessRules_Test {
     public void UK_MDM_02_MissingFirstNameOnEmit() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
-        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+        CreateMessageForTest("AutomationXmls\\MDM02_MissingFirstNameOnEmit.xml");
 
         utilities.WaitForMessage();
 
@@ -194,7 +194,7 @@ public class MDMBusinessRules_Test {
     public void UK_MDM_02_MissingLastNameOnEmit() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
-        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+        CreateMessageForTest("AutomationXmls\\MDM02_MissingLastNameOnEmit.xml");
 
         utilities.WaitForMessage();
 
@@ -205,7 +205,7 @@ public class MDMBusinessRules_Test {
     public void UK_MDM_04_RemoveNonAlphanumericCharactersFromFirstName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
-        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+        CreateMessageForTest("AutomationXmls\\MDM04_RemoveNonAlphaFirstName.xml");
 
         utilities.WaitForMessage();
 
@@ -216,7 +216,7 @@ public class MDMBusinessRules_Test {
     public void UK_MDM_04_RemoveNonAlphanumericCharactersFromLastName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
-        CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
+        CreateMessageForTest("AutomationXmls\\MDM04_RemoveNonAlphaLastName.xml");
 
         utilities.WaitForMessage();
 
