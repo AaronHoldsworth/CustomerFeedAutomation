@@ -99,7 +99,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    /*
+    
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
         testCaseName = "SCV-2670,MDM-01 Verify All Mandatory Elements";
@@ -225,7 +225,6 @@ public class MDMBusinessRules_Test {
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
         
     }
-     */
 
     @Test
     public void UK_MDM_06_VerifyDummyNameForFirstName() {
