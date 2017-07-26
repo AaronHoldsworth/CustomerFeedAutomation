@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import junit.framework.TestResult;
 import org.bson.Document;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,7 +28,7 @@ import static org.junit.Assert.*;
  * @author TTGAHX
  */
 public class MDMBusinessRules_Test {
-    
+
     final TestUtilities utilities;
     final EMSConnector emsConnector;
     final MongoConnector mongoConnector;
@@ -43,7 +44,7 @@ public class MDMBusinessRules_Test {
     static List<String> resultsList = new ArrayList<>();
     private boolean connectionSuccessful;
     private boolean messageSent;
-    
+
     public MDMBusinessRules_Test() {
         utilities = new TestUtilities();
         emsConnector = new EMSConnector();
@@ -51,20 +52,20 @@ public class MDMBusinessRules_Test {
         mongoConnector.getMongoConnection();
         String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
         connectionSuccessful = emsConnector.ConnectToGIP(queueName);
-        
+
     }
-    
+
     private void CreateMessageForTest(String xmlPath) {
-        
+
         systemId = utilities.GenerateGuid();
         emsMessageHandler = new EMSMessageHandler();
         emsMessageHandler.CreateEMSMessage(xmlPath, systemId);
         properties = emsMessageHandler.Properties();
         messageBody = emsMessageHandler.MessageBody();
-        
+
         messageSent = emsConnector.SendEmsMessageToC4C(properties, messageBody);
     }
-    
+
     private void CheckTibcoSuccess() {
         if (!connectionSuccessful) {
             fail("Failed to create TIBCO Connection");
@@ -74,33 +75,34 @@ public class MDMBusinessRules_Test {
             }
         }
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         RES_GEN.WriteResultsToFile(resultsList);
     }
-    
+
     @Before
     public void setUp() {
-        
+
     }
-    
+
     @After
     public void tearDown() {
         testCaseResult = (testWasSuccesful ? "Pass" : "Fail");
-        
+
         String result = testCaseName + "," + testCaseResult + "," + systemId;
         resultsList.add(result);
-        
+
     }
-    
+
+    /*
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
-        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        testCaseName = "SCV-2670,MDM-01 Verify All Mandatory Elements";
         
         CreateMessageForTest("AutomationXmls\\MDM01_AllMandatoryElements.xml");
         
@@ -115,7 +117,7 @@ public class MDMBusinessRules_Test {
     
     @Test
     public void UK_MDM_01_RecordMissingTitle() {
-        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        testCaseName = "SCV-2671,MDM-01 Verify Customer Missing Title is not created";
         
         CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
         
@@ -131,7 +133,7 @@ public class MDMBusinessRules_Test {
     
     @Test
     public void UK_MDM_01_RecordMissingFirstName() {
-        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        testCaseName = "SCV-2671,MDM-01 Verify Customer Missing First Name is not created";
         
         CreateMessageForTest("AutomationXmls\\MDM01_MissingFirstName.xml");
         
@@ -148,7 +150,7 @@ public class MDMBusinessRules_Test {
     
     @Test
     public void UK_MDM_01_RecordMissingLastName() {
-        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        testCaseName = "SCV-2671,MDM-01 Verify Customer Missing Last Name is not created";
         
         CreateMessageForTest("AutomationXmls\\MDM01_MissingLastName.xml");
         
@@ -165,7 +167,7 @@ public class MDMBusinessRules_Test {
     
     @Test
     public void UK_MDM_01_RecordMissingLContactPoint() {
-        testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        testCaseName = "SCV-2671,MDM-01 Verify Customer with No Contact Points is not created";
         
         CreateMessageForTest("AutomationXmls\\MDM01_MissingContactPoint.xml");
         
@@ -223,5 +225,33 @@ public class MDMBusinessRules_Test {
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
         
     }
-    
+     */
+
+    @Test
+    public void UK_MDM_06_VerifyDummyNameForFirstName() {
+        testCaseName = "SCV-2676,Verify Dummy is nulled for First Name";
+
+        CreateMessageForTest("AutomationXmls\\MDM06_DummyFirstName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue;
+        String lastNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
+        CheckTibcoSuccess();
+
+        assertNull(firstNameValue);
+        assertTrue(lastNameValue.equalsIgnoreCase("sher"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase("sher"));
+
+    }
+
 }

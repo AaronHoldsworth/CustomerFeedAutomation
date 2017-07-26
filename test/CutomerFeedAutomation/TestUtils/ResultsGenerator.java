@@ -36,7 +36,7 @@ public class ResultsGenerator {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
 
-            bw.write("Test Case,Result,Customer Id");
+            bw.write("Jira ID,Test Case,Result,Customer Id");
             bw.newLine();
             for (String result : resultsList) {
                 bw.write(result);
