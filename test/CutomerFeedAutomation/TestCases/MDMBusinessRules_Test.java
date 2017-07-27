@@ -228,7 +228,7 @@ public class MDMBusinessRules_Test {
 
     @Test
     public void UK_MDM_06_VerifyDummyNameForFirstName() {
-        testCaseName = "SCV-2676,Verify Dummy is nulled for First Name";
+        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for First Name";
 
         CreateMessageForTest("AutomationXmls\\MDM06_DummyFirstName.xml");
 
@@ -236,8 +236,8 @@ public class MDMBusinessRules_Test {
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
-        String firstNameValue;
-        String lastNameValue;
+        String firstNameValue; 
+       String lastNameValue;
         String jsonString = record.toJson();
 
         JSONObject jsonRecord = new JSONObject(jsonString);
