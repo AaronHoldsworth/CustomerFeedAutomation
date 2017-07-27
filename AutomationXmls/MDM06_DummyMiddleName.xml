@@ -1,0 +1,137 @@
+$Header:
+JMSMessageID=ID:EMS-SERVER-GIP-INT-MAIN.333E58FDDF5D1:23BA2881
+JMSTimestamp=Fri Jun 16 14:47:00 435 BST 2017
+JMSDestination=Topic[TUI.CP.PUB.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.T.ACTION]
+JMSDeliveryMode=PERSISTENT
+JMSPriority=4
+$Properties:
+TUI_MCTX_ORIGSYSOWNER=String:UK
+TUI_MCTX_EXECTX_APPNAME=String:Customer_PublishCustomer_root
+TUI_MCTX_TYPE=String:EVENT
+TUI_MCTX_EXECTX_JOBID=String:e077df59-b928-4992-8467-1e23a0f48c73
+TUI_MCTX_VER_IF=String:2.0
+TUI_MCTX_CORRELATIONID=String:e077df59-b928-4992-8467-1e23a0f48c73
+TUI_MCTX_ORIGSYS=String:CDM
+TUI_MCTX_EXECTX_PROCNAME=String:IntegrationServices/Customer/CustomerDetails_v1/PublishCustomerDetails_v1/VETRO/AddMessageProperties.process
+TUI_MCTX_TRACKINGINFO=String:e077df59-b928-4992-8467-1e23a0f48c73
+TUI_MCTX_MSGID=String:e077df59-b928-4992-8467-1e23a0f48c73
+TUI_MCTX_TIMESTAMP=String:1497538138
+TUI_MCTX_SENDERSYSOWNER=String:UK
+TUI_MCTX_SENDERSYS=String:CDM
+TUI_MCTX_EXECTX_PROCINST=String:3142000
+TUI_MCTX_EXECTX_APPINST=String:ukttbw01.uk.tui.de
+TUI_MCTX_NAME_IF=String:CustomerSourceEvent
+TUI_MCTX_SRCMKT=String:UK
+$TextBody:
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:customerSourceEvent xmlns:ns0="http://xmlns.tui.com/api/tuigroup/cp/cmf/customer/2.0/customerSourceEvent">
+	<ns0:customers>
+		<ns0:customer Version="20170616081000" CustomerLevel="Silver">
+			<ns1:customerId xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:masterKey SystemOwner="UK" System="CDM" Id=":systemid:"/>
+				<ns1:sourceKeys>
+					<ns1:key SystemOwner="UK" System="CDM" Id=":systemid:"/>
+				</ns1:sourceKeys>
+			</ns1:customerId>
+			<ns1:owner xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:key SystemOwner="TUIAG" System="C4C" Id="UK"/>
+				<ns1:name>TUI UK &amp; I</ns1:name>
+			</ns1:owner>
+			<ns1:customerFacingIdentifier xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0"/>
+			<ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Sher</ns1:firstName>
+			<ns1:initials xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">DS</ns1:initials>
+			<ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">navin</ns1:lastName>
+                        <ns1:extraNames xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+                                  <ns1:extraName>
+                                                 <ns1:nameType>Middle Name</ns1:nameType>
+                                                 <ns1:name>Dummy</ns1:name>
+                                  </ns1:extraName>
+                        </ns1:extraNames>
+			<ns1:gender xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Male</ns1:gender>
+			<ns1:genderTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Mr</ns1:genderTitle>
+			<ns1:extraTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Mr</ns1:extraTitle>
+			<ns1:status xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Live</ns1:status>
+			<ns1:contactPoints xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:contactPoint>
+					<ns2:priorityType xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">Low</ns2:priorityType>
+					<ns2:qualityLevel xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1</ns2:qualityLevel>
+					<ns2:contactEmailAddress xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">
+						<ns2:emailCategory>Not Specified</ns2:emailCategory>
+						<ns2:emailAddress>
+							<ns2:email>dummy.sher@thetestmonkey.com</ns2:email>
+						</ns2:emailAddress>
+					</ns2:contactEmailAddress>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">AHCOR000000000001</ns2:correlationID>
+				</ns1:contactPoint>
+				<ns1:contactPoint>
+					<ns2:priorityType xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">Low</ns2:priorityType>
+					<ns2:qualityLevel xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1</ns2:qualityLevel>
+					<ns2:contactPhoneNumber xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">
+						<ns2:lineType>Mobile</ns2:lineType>
+						<ns2:phoneNumberCategory>Not Specified</ns2:phoneNumberCategory>
+						<ns2:unStructuredPhoneNumber FormatType="Standard">
+							<ns2:phoneNumber>+447714449793</ns2:phoneNumber>
+						</ns2:unStructuredPhoneNumber>
+					</ns2:contactPhoneNumber>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">AHCOR000000000003</ns2:correlationID>
+				</ns1:contactPoint>
+			</ns1:contactPoints>
+			<ns1:profiles xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:profile>
+					<ns1:name>Customer Value Score</ns1:name>
+					<ns1:categoryName>Score</ns1:categoryName>
+					<ns1:value>
+						<ns1:value>B</ns1:value>
+					</ns1:value>
+				</ns1:profile>
+			</ns1:profiles>
+			<ns1:consents xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:consent>
+					<ns1:type>Marketing by Post</ns1:type>
+					<ns1:consent>true</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+				<ns1:consent>
+					<ns1:type>Marketing by Phone</ns1:type>
+					<ns1:consent>false</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+				<ns1:consent>
+					<ns1:type>Marketing by Email</ns1:type>
+					<ns1:consent>false</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+				<ns1:consent>
+					<ns1:type>Marketing by SMS</ns1:type>
+					<ns1:consent>false</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+			</ns1:consents>
+			<ns1:preferences xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:preference>
+					<ns1:type/>
+					<ns1:value/>
+					<ns1:contactPreferences>
+						<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+					</ns1:contactPreferences>
+				</ns1:preference>
+			</ns1:preferences>
+		</ns0:customer>
+	</ns0:customers>
+</ns0:customerSourceEvent>

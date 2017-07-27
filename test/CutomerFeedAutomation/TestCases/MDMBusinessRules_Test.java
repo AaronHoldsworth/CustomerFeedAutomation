@@ -252,5 +252,179 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (lastNameValue.equalsIgnoreCase("sher"));
 
     }
+    
+    @Test
+    public void UK_MDM_06_VerifyDummyNameForLastName() {
+        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Last Name";
 
+        CreateMessageForTest("AutomationXmls\\MDM06_DummyLastName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue; 
+        String lastNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
+        CheckTibcoSuccess();
+
+        assertNull(lastNameValue);
+        assertTrue(firstNameValue.equalsIgnoreCase("sher"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
+
+    }
+    
+    @Test
+    public void UK_MDM_06_VerifyDummyNameForMiddletName() {
+        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
+
+        CreateMessageForTest("AutomationXmls\\MDM06_DummyMiddleName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue; 
+        String lastNameValue;
+        String middleNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        
+        CheckTibcoSuccess();
+
+        assertNull(middleNameValue);
+        
+        assertTrue(firstNameValue.equalsIgnoreCase("sher"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
+        assertTrue(lastNameValue.equalsIgnoreCase("Navin"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Navin"));
+
+    }
+    
+    @Test
+    public void UK_MDM_06_VerifyTestNameForFirstName() {
+        testCaseName = "SCV-2676,MDM-06 Verify Test is nulled for First Name";
+
+        CreateMessageForTest("AutomationXmls\\MDM06_TestFirstName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue; 
+       String lastNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
+        CheckTibcoSuccess();
+
+        assertNull(firstNameValue);
+        assertTrue(lastNameValue.equalsIgnoreCase("Lion"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Lion"));
+
+    }
+    
+    @Test
+    public void UK_MDM_06_VeriyTestNameForLastName() {
+        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Last Name";
+
+        CreateMessageForTest("AutomationXmls\\MDM06_TestLastName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue; 
+        String lastNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
+        CheckTibcoSuccess();
+
+        assertNull(lastNameValue);
+        assertTrue(firstNameValue.equalsIgnoreCase("Tiger"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase("Tiger"));
+
+    }
+    
+    @Test
+    public void UK_MDM_06_VerifyTestNameForMiddletName() {
+        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
+
+        CreateMessageForTest("AutomationXmls\\MDM06_TestMiddleName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue; 
+        String lastNameValue;
+        String middleNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        
+        CheckTibcoSuccess();
+
+        assertNull(middleNameValue);
+        
+        assertTrue(firstNameValue.equalsIgnoreCase("Luton"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase("Luton"));
+        assertTrue(lastNameValue.equalsIgnoreCase("Wens"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Wns"));
+
+    }
+    
+    @Test
+    public void UK_MDM_06_VerifyTestNameForAllName() {
+        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
+
+        CreateMessageForTest("AutomationXmls\\MDM06_AllTestName.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue; 
+        String lastNameValue;
+        String middleNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        
+        CheckTibcoSuccess();
+        
+        assertNull(firstNameValue);
+        assertNull(middleNameValue);
+        assertNull(lastNameValue);
+
+    }
+    
 }
