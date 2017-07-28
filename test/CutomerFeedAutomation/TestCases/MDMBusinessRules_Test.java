@@ -358,5 +358,66 @@ public class MDMBusinessRules_Test {
         assertNull(lastNameValue);
 
     }
+    
+    @Test
+    public void UK_MDM_04_VerifySpecialCharacterstTrimmed_InName_ForAllName() {
+        testCaseName = "SCV-XXX,MDM-04 Verify Speica Character are trimmed in all nemes ";
+
+        CreateMessageForTest("AutomationXmls\\MDM04_AllName_NoSpecialCharacter.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue;
+        String lastNameValue;
+        String middleNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        //middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
+        CheckTibcoSuccess();
+
+        assertTrue(firstNameValue.equalsIgnoreCase("Tiger"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase("Tiger"));
+        assertTrue(lastNameValue.equalsIgnoreCase("lioness"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase("lioness"));
+
+    }
+    
+    @Test
+    public void UK_MDM_04_VerifyLimitedSpecialCharacters_Allowed_NameForAllName() {
+        testCaseName = "SCV-XXX,MDM-04 Verify some special character allowed in Names";
+
+        CreateMessageForTest("AutomationXmls\\MDM04_AllName_NoSpecialCharacter.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        String firstNameValue;
+        String lastNameValue;
+        String middleNameValue;
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        //middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
+        CheckTibcoSuccess();
+
+        assertTrue(firstNameValue.equalsIgnoreCase("kashmir's"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase("kashmir's"));
+        assertTrue(lastNameValue.equalsIgnoreCase("Harr-e"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Harr-e"));
+
+    }
+    
 
 }
