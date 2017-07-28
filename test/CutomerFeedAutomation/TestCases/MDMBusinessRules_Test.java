@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import junit.framework.TestResult;
 import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -99,131 +101,130 @@ public class MDMBusinessRules_Test {
 
     }
 
-    
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
         testCaseName = "SCV-2670,MDM-01 Verify All Mandatory Elements";
-        
+
         CreateMessageForTest("AutomationXmls\\MDM01_AllMandatoryElements.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
         CheckTibcoSuccess();
         assertNotNull(record);
         testWasSuccesful = (record != null);
     }
-    
+
     @Test
     public void UK_MDM_01_RecordMissingTitle() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer Missing Title is not created";
-        
+
         CreateMessageForTest("AutomationXmls\\MDM01_MissingTitle.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
         CheckTibcoSuccess();
-        
+
         assertNull(record);
         testWasSuccesful = (record == null);
     }
-    
+
     @Test
     public void UK_MDM_01_RecordMissingFirstName() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer Missing First Name is not created";
-        
+
         CreateMessageForTest("AutomationXmls\\MDM01_MissingFirstName.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
         CheckTibcoSuccess();
-        
+
         assertNull(record);
         testWasSuccesful = (record == null);
-        
+
     }
-    
+
     @Test
     public void UK_MDM_01_RecordMissingLastName() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer Missing Last Name is not created";
-        
+
         CreateMessageForTest("AutomationXmls\\MDM01_MissingLastName.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
         CheckTibcoSuccess();
-        
+
         assertNull(record);
         testWasSuccesful = (record == null);
-        
+
     }
-    
+
     @Test
     public void UK_MDM_01_RecordMissingLContactPoint() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer with No Contact Points is not created";
-        
+
         CreateMessageForTest("AutomationXmls\\MDM01_MissingContactPoint.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
         CheckTibcoSuccess();
-        
+
         assertNull(record);
         testWasSuccesful = (record == null);
-        
+
     }
-    
+
     public void UK_MDM_02_MissingFirstNameOnEmit() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-        
+
         CreateMessageForTest("AutomationXmls\\MDM02_MissingFirstNameOnEmit.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
     }
-    
+
     public void UK_MDM_02_MissingLastNameOnEmit() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-        
+
         CreateMessageForTest("AutomationXmls\\MDM02_MissingLastNameOnEmit.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
     }
-    
+
     public void UK_MDM_04_RemoveNonAlphanumericCharactersFromFirstName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-        
+
         CreateMessageForTest("AutomationXmls\\MDM04_RemoveNonAlphaFirstName.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
     }
-    
+
     public void UK_MDM_04_RemoveNonAlphanumericCharactersFromLastName() {
         testCaseName = Thread.currentThread().getStackTrace()[1].getMethodName();
-        
+
         CreateMessageForTest("AutomationXmls\\MDM04_RemoveNonAlphaLastName.xml");
-        
+
         utilities.WaitForMessage();
-        
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-        
+
     }
 
     @Test
@@ -236,8 +237,8 @@ public class MDMBusinessRules_Test {
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
-        String firstNameValue; 
-       String lastNameValue;
+        String firstNameValue;
+        String lastNameValue;
         String jsonString = record.toJson();
 
         JSONObject jsonRecord = new JSONObject(jsonString);
@@ -252,7 +253,7 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (lastNameValue.equalsIgnoreCase("sher"));
 
     }
-    
+
     @Test
     public void UK_MDM_06_VerifyDummyNameForLastName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Last Name";
@@ -263,7 +264,7 @@ public class MDMBusinessRules_Test {
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
-        String firstNameValue; 
+        String firstNameValue;
         String lastNameValue;
         String jsonString = record.toJson();
 
@@ -279,125 +280,56 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
 
     }
-    
+
     @Test
-    public void UK_MDM_06_VerifyDummyNameForMiddletName() {
+    public void UK_MDM_06_VerifyDummyNameForMiddleName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
 
         CreateMessageForTest("AutomationXmls\\MDM06_DummyMiddleName.xml");
 
         utilities.WaitForMessage();
 
-        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+        Document record = mongoConnector.getMongoRecordByMasterId("AUTO0000101");
 
-        String firstNameValue; 
+        String firstNameValue;
         String lastNameValue;
-        String middleNameValue;
+        JSONArray extraNames;
+        List<String> middleNames = new ArrayList<>();
         String jsonString = record.toJson();
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
         firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
         lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
         
+        middleNames = GetFirstNames(jsonRecord);
+
         CheckTibcoSuccess();
 
-        assertNull(middleNameValue);
-        
+        assertNull(middleNames);
+
         assertTrue(firstNameValue.equalsIgnoreCase("sher"));
         testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
         assertTrue(lastNameValue.equalsIgnoreCase("Navin"));
         testWasSuccesful = (lastNameValue.equalsIgnoreCase("Navin"));
 
     }
-    
-    @Test
-    public void UK_MDM_06_VerifyTestNameForFirstName() {
-        testCaseName = "SCV-2676,MDM-06 Verify Test is nulled for First Name";
 
-        CreateMessageForTest("AutomationXmls\\MDM06_TestFirstName.xml");
+    private List<String> GetFirstNames(JSONObject jsonRecord) throws JSONException {
+        JSONArray extraNames;
+        List<String> middleNames = new ArrayList<>();
+        extraNames = jsonRecord.getJSONObject("customer").getJSONObject("extraNames").getJSONArray("extraNames");
+        for (Object o : extraNames) {
+            if (o instanceof JSONObject) {
+                JSONObject extraName = (JSONObject) o;
 
-        utilities.WaitForMessage();
+                middleNames.add(extraName.getString("name"));
 
-        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
-        String firstNameValue; 
-       String lastNameValue;
-        String jsonString = record.toJson();
-
-        JSONObject jsonRecord = new JSONObject(jsonString);
-
-        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
-        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-
-        CheckTibcoSuccess();
-
-        assertNull(firstNameValue);
-        assertTrue(lastNameValue.equalsIgnoreCase("Lion"));
-        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Lion"));
-
+            }
+        }
+        return middleNames;
     }
-    
-    @Test
-    public void UK_MDM_06_VeriyTestNameForLastName() {
-        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Last Name";
 
-        CreateMessageForTest("AutomationXmls\\MDM06_TestLastName.xml");
-
-        utilities.WaitForMessage();
-
-        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
-        String firstNameValue; 
-        String lastNameValue;
-        String jsonString = record.toJson();
-
-        JSONObject jsonRecord = new JSONObject(jsonString);
-
-        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
-        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-
-        CheckTibcoSuccess();
-
-        assertNull(lastNameValue);
-        assertTrue(firstNameValue.equalsIgnoreCase("Tiger"));
-        testWasSuccesful = (firstNameValue.equalsIgnoreCase("Tiger"));
-
-    }
-    
-    @Test
-    public void UK_MDM_06_VerifyTestNameForMiddletName() {
-        testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
-
-        CreateMessageForTest("AutomationXmls\\MDM06_TestMiddleName.xml");
-
-        utilities.WaitForMessage();
-
-        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
-
-        String firstNameValue; 
-        String lastNameValue;
-        String middleNameValue;
-        String jsonString = record.toJson();
-
-        JSONObject jsonRecord = new JSONObject(jsonString);
-
-        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
-        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        
-        CheckTibcoSuccess();
-
-        assertNull(middleNameValue);
-        
-        assertTrue(firstNameValue.equalsIgnoreCase("Luton"));
-        testWasSuccesful = (firstNameValue.equalsIgnoreCase("Luton"));
-        assertTrue(lastNameValue.equalsIgnoreCase("Wens"));
-        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Wns"));
-
-    }
-    
     @Test
     public void UK_MDM_06_VerifyTestNameForAllName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
@@ -408,7 +340,7 @@ public class MDMBusinessRules_Test {
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
-        String firstNameValue; 
+        String firstNameValue;
         String lastNameValue;
         String middleNameValue;
         String jsonString = record.toJson();
@@ -417,14 +349,14 @@ public class MDMBusinessRules_Test {
 
         firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
         lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        
+        //middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+
         CheckTibcoSuccess();
-        
+
         assertNull(firstNameValue);
-        assertNull(middleNameValue);
+        //assertNull(middleNameValue);
         assertNull(lastNameValue);
 
     }
-    
+
 }
