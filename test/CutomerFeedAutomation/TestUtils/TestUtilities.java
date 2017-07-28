@@ -10,8 +10,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -52,5 +56,26 @@ public class TestUtilities {
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public List<String> GetExtraNames(JSONObject jsonRecord) throws JSONException {
+        JSONArray extraNames;
+        List<String> middleNames = new ArrayList<>();
+       try
+       {
+        extraNames = jsonRecord.getJSONObject("customer").getJSONObject("extraNames").getJSONArray("extraNames");
+        for (Object o : extraNames) {
+            if (o instanceof JSONObject) {
+                JSONObject extraName = (JSONObject) o;
+                middleNames.add(extraName.getString("name"));
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           middleNames = null;
+       }
+        return middleNames;
     }
 }
