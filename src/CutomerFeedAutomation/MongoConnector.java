@@ -19,7 +19,9 @@ import org.bson.Document;
 public class MongoConnector {
 
     private MongoCollection<Document> _collection = null;
+    private MongoCollection<Document> _droolsCollection = null;
     private Document _record = null;
+    private Document _droolsTrace = null;
     private String _userName;
     private String _password;
     private String _database;
@@ -51,6 +53,7 @@ public class MongoConnector {
             MongoDatabase database = mongoClient.getDatabase(_database);
 
             _collection = database.getCollection("customer_UK");
+            _droolsCollection = database.getCollection("droolsTrace");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -76,10 +79,30 @@ public class MongoConnector {
         return _record;
     }
 
+    public Document getDroolsTrace(String sourceId) {
+        String key = "droolsTrace.customerId.sourceKeys.keies.id";
+
+        FindDroolsTrace(key, sourceId);
+
+        return _droolsTrace;
+    }
+
     private void FindRecord(String key, String id) {
         _collection.find(eq(key, id))
                 .forEach(PrintBlock);
     }
+
+    private void FindDroolsTrace(String key, String id) {
+        _droolsCollection.find(eq(key, id))
+                .forEach(PrintDrools);
+    }
+
+    Block<Document> PrintDrools = new Block<Document>() {
+        @Override
+        public void apply(final Document document) {
+            _droolsTrace = document;
+        }
+    };
 
     Block<Document> PrintBlock = new Block<Document>() {
         @Override

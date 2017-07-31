@@ -5,8 +5,11 @@
  */
 package CutomerFeedAutomation;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
@@ -21,19 +24,22 @@ import javax.jms.TextMessage;
  */
 public class EMSConnector {
 
-    static String serverUrl = "tcp://10.147.14.31:7222";
-    static String user = "tester";
-    static String password = "tester123";
+    static private String serverUrl;
+    static private String user;
+    static private String password;
     private QueueConnection connection = null;
     private Session session = null;
     private QueueConnectionFactory factory = null;
     private MessageProducer sender = null;
     private Queue queue = null;
+    static private String queueName;
 
-    public boolean ConnectToGIP(String queueName) {
+    public boolean ConnectToGIP() {
 
         boolean connectionSuccessful = true;
         try {
+            SetEMSProperties();
+            
             factory = new com.tibco.tibjms.TibjmsQueueConnectionFactory(serverUrl);
 
             connection = factory.createQueueConnection(user, password);
@@ -81,5 +87,24 @@ public class EMSConnector {
         }
 
         return messageSent;
+    }
+    
+        private void SetEMSProperties() {
+        Properties prop = new Properties();
+        FileInputStream input = null;
+
+        try {
+            input = new FileInputStream("config.properties");
+
+            prop.load(input);
+
+            serverUrl = prop.getProperty("EMSServerUrl");
+            password = prop.getProperty("EMSPassword");
+            user = prop.getProperty("EMSUser");
+            queueName = prop.getProperty("EMSQueue");
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

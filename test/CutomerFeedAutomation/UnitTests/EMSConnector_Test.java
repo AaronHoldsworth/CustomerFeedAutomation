@@ -27,8 +27,7 @@ public class EMSConnector_Test {
 
     public EMSConnector_Test() {
         emsConnector = new EMSConnector();
-        String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
-        emsConnector.ConnectToGIP(queueName);
+        emsConnector.ConnectToGIP();
     }
 
     @BeforeClass
@@ -49,8 +48,7 @@ public class EMSConnector_Test {
 
     @Test
     public void TestConnectToGIP() {
-        String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
-        boolean connectionSuccess = emsConnector.ConnectToGIP(queueName);
+        boolean connectionSuccess = emsConnector.ConnectToGIP();
 
         assertTrue("Could not create TIBCO Connection", connectionSuccess);
     }

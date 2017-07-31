@@ -52,8 +52,7 @@ public class MDMBusinessRules_Test {
         emsConnector = new EMSConnector();
         mongoConnector = new MongoConnector();
         mongoConnector.getMongoConnection();
-        String queueName = "TUI.CP.MDM.DEV.CUSTOMER.0300.CUSTOMERSOURCEEVENT.UK.Q.ACTION";
-        connectionSuccessful = emsConnector.ConnectToGIP(queueName);
+        connectionSuccessful = emsConnector.ConnectToGIP();
 
     }
 
@@ -240,7 +239,7 @@ public class MDMBusinessRules_Test {
 
         firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
         lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        
+
         List<String> middleNames = utilities.GetExtraNames(jsonRecord);
 
         for (String name : middleNames) {
@@ -272,14 +271,18 @@ public class MDMBusinessRules_Test {
         String firstNameValue;
         String lastNameValue;
         String jsonString = record.toJson();
-        
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
-        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        try {
+            firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            firstNameValue = null;
+        }
+
         lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-
-
         CheckTibcoSuccess();
 
         assertNull(firstNameValue);
@@ -305,7 +308,11 @@ public class MDMBusinessRules_Test {
         JSONObject jsonRecord = new JSONObject(jsonString);
 
         firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
-        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        try {
+            lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        } catch (Exception e) {
+            lastNameValue = null;
+        }
 
         CheckTibcoSuccess();
 
@@ -323,7 +330,7 @@ public class MDMBusinessRules_Test {
 
         utilities.WaitForMessage();
 
-        Document record = mongoConnector.getMongoRecordByMasterId("AUTO0000101");
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
         String firstNameValue;
         String lastNameValue;
@@ -340,7 +347,7 @@ public class MDMBusinessRules_Test {
 
         CheckTibcoSuccess();
 
-        assertNull(middleNames);
+        assertTrue(middleNames.size()==0);
 
         assertTrue(firstNameValue.equalsIgnoreCase("sher"));
         testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
@@ -361,19 +368,30 @@ public class MDMBusinessRules_Test {
 
         String firstNameValue;
         String lastNameValue;
-        String middleNameValue;
+         List<String> middleNames = new ArrayList<>();
         String jsonString = record.toJson();
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
-        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
-        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
-        //middleNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        try {
+            firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        } catch (JSONException e) {
+            firstNameValue = null;
+
+        }
+        try {
+            lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        } catch (JSONException e) {
+            lastNameValue = null;
+        }
+
+        middleNames = utilities.GetExtraNames(jsonRecord);
 
         CheckTibcoSuccess();
 
+                assertTrue(middleNames.size()==0);
+
         assertNull(firstNameValue);
-        //assertNull(middleNameValue);
         assertNull(lastNameValue);
 
     }
