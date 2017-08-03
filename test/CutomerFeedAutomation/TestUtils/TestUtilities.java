@@ -13,9 +13,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -58,6 +60,28 @@ public class TestUtilities {
         }
     }
 
+    
+    public List<String> GetDroolsTraceMessage(JSONObject jsonRecord) throws JSONException {
+        JSONArray droolsArray;
+        List<String> drools = new ArrayList<>();
+       try
+       {
+        droolsArray = jsonRecord.getJSONObject("droolsTrace").getJSONArray("droolsTrace");
+        for (Object o : droolsArray) {
+            if (o instanceof JSONObject) {
+                JSONObject droolsTrace = (JSONObject) o;
+                drools.add(droolsTrace.getString("ruleName"));
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           drools = null;
+       }
+        return drools;
+    }
+    
     public List<String> GetExtraNames(JSONObject jsonRecord) throws JSONException {
         JSONArray extraNames;
         List<String> middleNames = new ArrayList<>();
@@ -78,4 +102,33 @@ public class TestUtilities {
        }
         return middleNames;
     }
+    
+    public List<String> GetMobileNumber(JSONObject jsonRecord) throws JSONException {
+        
+        
+        JSONArray numbers;
+        List<String> phonenumbers = new ArrayList<>();
+        
+        try
+        {
+        numbers = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints").getJSONArray("contactPoints");
+        for (Object o : numbers) {
+            if (o instanceof JSONObject) {
+                JSONObject number = (JSONObject) o;
+                phonenumbers.add(jsonRecord.getJSONObject("contactPhoneNumber").getJSONObject("unStructuredPhoneNumber").getString("phoneNumber"));
+            }
+        }
+        }
+        catch (Exception e)
+                {
+                System.out.println(e.getMessage());
+                 phonenumbers = null;
+                }
+        return phonenumbers;
+        }
+    
+    
+    
+    
+    
 }

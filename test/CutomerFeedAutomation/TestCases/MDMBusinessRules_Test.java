@@ -13,6 +13,7 @@ import CutomerFeedAutomation.TestUtils.TestUtilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 import junit.framework.TestResult;
 import org.bson.Document;
 import org.json.JSONArray;
@@ -395,5 +396,115 @@ public class MDMBusinessRules_Test {
         assertNull(lastNameValue);
 
     }
+    
+    @Test
+    public void UK_MDM_02_VerifyFirstNameValidCharacters() {
+        testCaseName = "SCV-XXX,MDM-02 Verify first name have valid character";
+
+        CreateMessageForTest("AutomationXmls\\MDM02_FirstName_InvalidCharacters.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getDroolsTrace(systemId);
+
+        String firstNameValue;
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        
+
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-02"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+
+        CheckTibcoSuccess();
+
+        assertNull(firstNameValue);
+        assertTrue(ruleExecuted);
+        
+
+    }
+
+    @Test
+    public void UK_MDM_02_VerifyLasttNameValidCharacters() {
+        testCaseName = "SCV-XXX,MDM-02 Verify Last name have valid character";
+
+        CreateMessageForTest("AutomationXmls\\MDM02_LastName_InvalidCharacters.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getDroolsTrace(systemId);
+
+        String lastNameValue;
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        
+
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-02"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+
+        CheckTibcoSuccess();
+
+        assertNull(lastNameValue);
+        assertTrue(ruleExecuted);
+    }
+    
+    @Test
+    public void UK_MDM_11_VerifyMobileNumberNull() {
+        testCaseName = "SCV-XXX,MDM-11 Verify Mobile Number null ";
+
+        CreateMessageForTest("AutomationXmls\\MDM011_MobileNumberNull.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getDroolsTrace(systemId);
+
+        String mobileNumberValue;
+        boolean ruleExecuted = false;
+        
+        JSONArray phoneNumber;
+        List<String> phoneNumbers = new ArrayList<>();
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        
+        phoneNumbers = utilities.GetMobileNumber(jsonRecord);
+        
+         List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-11"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        
+        CheckTibcoSuccess();
+        assertNull(phoneNumbers);
+        assertTrue(ruleExecuted);
+    }
+    
+    
+      
+    
+    
 
 }
