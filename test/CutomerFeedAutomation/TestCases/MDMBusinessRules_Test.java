@@ -10,9 +10,11 @@ import CutomerFeedAutomation.TestUtils.EMSMessageHandler;
 import CutomerFeedAutomation.MongoConnector;
 import CutomerFeedAutomation.TestUtils.ResultsGenerator;
 import CutomerFeedAutomation.TestUtils.TestUtilities;
+import CutomerFeedAutomation.TestUtils.TestUtilities.eContactType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 import junit.framework.TestResult;
 import org.bson.Document;
 import org.json.JSONArray;
@@ -24,6 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 
 /**
  *
@@ -49,10 +52,11 @@ public class MDMBusinessRules_Test {
 
     public MDMBusinessRules_Test() {
         utilities = new TestUtilities();
-        emsConnector = new EMSConnector();
+        //emsConnector = new EMSConnector();
+        emsConnector = null;
         mongoConnector = new MongoConnector();
         mongoConnector.getMongoConnection();
-        connectionSuccessful = emsConnector.ConnectToGIP();
+        //connectionSuccessful = emsConnector.ConnectToGIP();
 
     }
 
@@ -100,7 +104,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
         testCaseName = "SCV-2670,MDM-01 Verify All Mandatory Elements";
 
@@ -115,7 +119,7 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (record != null);
     }
 
-    @Test
+    //@Test
     public void UK_MDM_01_RecordMissingTitle() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer Missing Title is not created";
 
@@ -131,7 +135,7 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (record == null);
     }
 
-    @Test
+    //@Test
     public void UK_MDM_01_RecordMissingFirstName() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer Missing First Name is not created";
 
@@ -148,7 +152,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_01_RecordMissingLastName() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer Missing Last Name is not created";
 
@@ -165,7 +169,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_01_RecordMissingLContactPoint() {
         testCaseName = "SCV-2671,MDM-01 Verify Customer with No Contact Points is not created";
 
@@ -181,8 +185,8 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (record == null);
 
     }
-
-    @Test
+        
+    //@Test
     public void UK_MDM_04_VerifySpecialCharacterstTrimmedForAllNames() {
         testCaseName = "SCV-XXX,MDM-04 Verify Speica Character are trimmed in all names ";
 
@@ -220,7 +224,7 @@ public class MDMBusinessRules_Test {
         assertTrue(expectedMiddleName);
     }
 
-    @Test
+    //@Test
     public void UK_MDM_04_VerifyAllowedSpecialCharacters() {
         testCaseName = "SCV-XXX,MDM-04 Verify some special character allowed in Names";
 
@@ -258,7 +262,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_06_VerifyDummyNameForFirstName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for First Name";
 
@@ -291,7 +295,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_06_VerifyDummyNameForLastName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Last Name";
 
@@ -322,7 +326,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_06_VerifyDummyNameForMiddleName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
 
@@ -356,7 +360,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    @Test
+    //@Test
     public void UK_MDM_06_VerifyTestNameForAllName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
 
@@ -393,6 +397,50 @@ public class MDMBusinessRules_Test {
 
         assertNull(firstNameValue);
         assertNull(lastNameValue);
+
+    }
+    
+    @Test
+    public void UK_MDM_11_UKPhoneNumberGreaterThan12Chars() {
+        testCaseName = "SCV-XXX,MDM-11 Verify phone number is trimmed if it contains more than 12 chars ";
+
+        //CreateMessageForTest("AutomationXmls\\MDM11_MoreThan12Chars.xml");
+
+        //utilities.WaitForMessage();
+        systemId = "20110000039";
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        //CheckTibcoSuccess();
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+        boolean phoneNull = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+
+        List<String> phoneNumbers = utilities.GetContactPoints(jsonRecord,eContactType.phoneNumber);
+        
+        if(phoneNumbers.isEmpty())
+        {
+            phoneNull = true;
+        }
+        else{assertTrue(phoneNull);
+            testWasSuccesful = phoneNull;}
+        
+        Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
+        jsonString = droolsRecord.toJson();
+        jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-11"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(phoneNull);
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
 
     }
 

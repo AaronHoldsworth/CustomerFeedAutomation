@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +23,12 @@ import org.json.JSONObject;
  * @author TTGAHX
  */
 public class TestUtilities {
-
+    public static enum eContactType {
+        email,
+        phoneNumber,
+        address;
+    }
+    
     public String LoadTestFile(String fileName) {
 
         String fileAsString = "";
@@ -78,4 +84,129 @@ public class TestUtilities {
        }
         return middleNames;
     }
+    
+    public List<String> GetContactPoints(JSONObject jsonRecord, eContactType ContactType) throws JSONException {
+        JSONArray contactPoints;
+        List<String> contactPointValue = new ArrayList<>();
+       try
+       {
+           //JSONObject contactPointsobj = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints");
+           
+        contactPoints = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints").getJSONArray("contactPoints");
+        
+        
+        switch(ContactType){
+                case email: contactPointValue = getEmail(contactPoints, ContactType);
+                    break;
+                case phoneNumber: contactPointValue = getPhone(contactPoints, ContactType);
+                    break;
+                case address: contactPointValue = getAddress(contactPoints, ContactType);
+                    break;
+                default:
+                    throw new AssertionError(ContactType.name());
+        }
+        
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           contactPointValue = null;
+       }
+        return contactPointValue;
+    }
+    
+    public List<String> getEmail(JSONArray contactPoints, eContactType ContactType) throws JSONException {  
+        List<String> emailAddress = new ArrayList<>();
+       try
+       {
+           //JSONObject contactPointsobj = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints");
+        for (Object o : contactPoints) {
+            if (o instanceof JSONObject) {
+                JSONObject contactPoint = (JSONObject) o;
+                if (contactPoint.has("contactEmailAddress"))
+                {
+                    contactPoint = contactPoint.getJSONObject("contactEmailAddress").getJSONObject("emailAddress");
+                    emailAddress.add(contactPoint.getString(ContactType.toString()));
+                }
+                //middleNames.add(contactPoint.getString("name"));
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           emailAddress = null;
+       }
+        return emailAddress;
+    }
+    
+    public List<String> getPhone(JSONArray contactPoints, eContactType ContactType) throws JSONException {  
+        List<String> phoneNumbers = new ArrayList<>();
+       try
+       {
+           //JSONObject contactPointsobj = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints");
+        for (Object o : contactPoints) {
+            if (o instanceof JSONObject) {
+                JSONObject contactPoint = (JSONObject) o;
+                if (contactPoint.has("contactPhoneNumber"))
+                {
+                    contactPoint = contactPoint.getJSONObject("contactPhoneNumber").getJSONObject("unStructuredPhoneNumber");
+                    phoneNumbers.add(contactPoint.getString(ContactType.toString()));
+                }                
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           phoneNumbers = null;
+       }
+        return phoneNumbers;
+    }
+    
+    public List<String> getAddress(JSONArray contactPoints, eContactType ContactType) throws JSONException {  
+        List<String> emailAddress = new ArrayList<>();
+       try
+       {
+           //JSONObject contactPointsobj = jsonRecord.getJSONObject("customer").getJSONObject("contactPoints");
+        for (Object o : contactPoints) {
+            if (o instanceof JSONObject) {
+                JSONObject contactPoint = (JSONObject) o;
+                if (contactPoint.has("contactEmailAddress"))
+                {
+                    contactPoint = contactPoint.getJSONObject("contactEmailAddress").getJSONObject("emailAddress");
+                    emailAddress.add(contactPoint.getString(ContactType.toString()));
+                }                
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           emailAddress = null;
+       }
+        return emailAddress;
+    }
+    
+    public List<String> GetDroolsTraceMessage(JSONObject jsonRecord) throws JSONException {
+        JSONArray droolsArray;
+        List<String> drools = new ArrayList<>();
+       try
+       {
+        droolsArray = jsonRecord.getJSONObject("droolsTrace").getJSONArray("droolsTrace");
+        for (Object o : droolsArray) {
+            if (o instanceof JSONObject) {
+                JSONObject droolsTrace = (JSONObject) o;
+                drools.add(droolsTrace.getString("ruleName"));
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           drools = null;
+       }
+        return drools;
+    }
+
 }
