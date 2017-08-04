@@ -18,7 +18,7 @@ public class EMSMessageHandler {
     private String _messageBody;
     TestUtilities utilities = new TestUtilities();
 
-    public void CreateEMSMessage(String filename, String systemId) {
+    public void CreateEMSMessage(String filename, String systemId, String generatedName) {
         String file = utilities.LoadTestFile(filename);
         String[] splitFile = file.split("\\$TextBody:");
         String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
@@ -26,6 +26,7 @@ public class EMSMessageHandler {
         _messageBody = splitFile[1].trim();
 
         _messageBody = _messageBody.replaceAll(":systemid:", systemId);
+        _messageBody = _messageBody.replaceAll(":genName:", generatedName);
     }
 
     public HashMap<String, String> CreatePropertiesHashMap(String[] propertyList) {
