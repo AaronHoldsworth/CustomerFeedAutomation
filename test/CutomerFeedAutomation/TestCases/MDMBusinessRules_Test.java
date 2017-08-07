@@ -48,6 +48,7 @@ public class MDMBusinessRules_Test {
     EMSMessageHandler emsMessageHandler;
     static List<String> resultsList = new ArrayList<>();
     private boolean connectionSuccessful;
+    private String genName;
     private boolean messageSent;
 
     public MDMBusinessRules_Test() {
@@ -63,8 +64,9 @@ public class MDMBusinessRules_Test {
     private void CreateMessageForTest(String xmlPath) {
 
         systemId = utilities.GenerateGuid();
+        genName = utilities.GenerateName();
         emsMessageHandler = new EMSMessageHandler();
-        emsMessageHandler.CreateEMSMessage(xmlPath, systemId);
+        emsMessageHandler.CreateEMSMessage(xmlPath, systemId, genName);
         properties = emsMessageHandler.Properties();
         messageBody = emsMessageHandler.MessageBody();
 
@@ -212,7 +214,7 @@ public class MDMBusinessRules_Test {
         List<String> middleNames = utilities.GetExtraNames(jsonRecord);
 
         for (String name : middleNames) {
-            if (name.equalsIgnoreCase("Jammu")) {
+            if (name.equalsIgnoreCase(genName)) {
                 expectedMiddleName = true;
             }
         }
@@ -249,17 +251,17 @@ public class MDMBusinessRules_Test {
         List<String> middleNames = utilities.GetExtraNames(jsonRecord);
 
         for (String name : middleNames) {
-            if (name.equalsIgnoreCase("Jammu'ns")) {
+            if (name.equalsIgnoreCase(genName+"'ns")) {
                 expectedMiddleName = true;
             }
         }
 
         CheckTibcoSuccess();
 
-        assertTrue(firstNameValue.equalsIgnoreCase("kashmir's"));
-        testWasSuccesful = (firstNameValue.equalsIgnoreCase("kashmir's"));
-        assertTrue(lastNameValue.equalsIgnoreCase("Harr-e"));
-        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Harr-e"));
+        assertTrue(firstNameValue.equalsIgnoreCase(genName+"'s"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase(genName+"'s"));
+        assertTrue(lastNameValue.equalsIgnoreCase(genName+"-e"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase(genName+"-e"));
         assertTrue(expectedMiddleName);
 
     }
@@ -292,8 +294,8 @@ public class MDMBusinessRules_Test {
         CheckTibcoSuccess();
 
         assertNull(firstNameValue);
-        assertTrue(lastNameValue.equalsIgnoreCase("sher"));
-        testWasSuccesful = (lastNameValue.equalsIgnoreCase("sher"));
+        assertTrue(lastNameValue.equalsIgnoreCase(genName));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase(genName));
 
     }
 
@@ -323,8 +325,8 @@ public class MDMBusinessRules_Test {
         CheckTibcoSuccess();
 
         assertNull(lastNameValue);
-        assertTrue(firstNameValue.equalsIgnoreCase("sher"));
-        testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
+        assertTrue(firstNameValue.equalsIgnoreCase(genName));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase(genName));
 
     }
 
@@ -353,12 +355,12 @@ public class MDMBusinessRules_Test {
 
         CheckTibcoSuccess();
 
-        assertTrue(middleNames.size()==0);
+        assertTrue(middleNames.isEmpty());
 
-        assertTrue(firstNameValue.equalsIgnoreCase("sher"));
-        testWasSuccesful = (firstNameValue.equalsIgnoreCase("sher"));
-        assertTrue(lastNameValue.equalsIgnoreCase("Navin"));
-        testWasSuccesful = (lastNameValue.equalsIgnoreCase("Navin"));
+        assertTrue(firstNameValue.equalsIgnoreCase(genName));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase(genName));
+        assertTrue(lastNameValue.equalsIgnoreCase(genName));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase(genName));
 
     }
 
@@ -395,7 +397,7 @@ public class MDMBusinessRules_Test {
 
         CheckTibcoSuccess();
 
-                assertTrue(middleNames.size()==0);
+                assertTrue(middleNames.isEmpty());
 
         assertNull(firstNameValue);
         assertNull(lastNameValue);

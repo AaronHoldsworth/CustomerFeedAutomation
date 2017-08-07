@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.bson.Document;
+import java.util.concurrent.ThreadLocalRandom;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +57,19 @@ public class TestUtilities {
         String id = guid.toString();
 
         return id;
+    }
+    
+    public String GenerateName()
+    {
+        char[] allowedChars = "abcedfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        StringBuilder generatedName = new StringBuilder();
+        
+        for(int i=0; i<10; i++)
+        {
+            generatedName.append(allowedChars[ThreadLocalRandom.current().nextInt(0, allowedChars.length-1)]);
+        }
+          
+        return generatedName.toString();
     }
 
     public void WaitForMessage() {
