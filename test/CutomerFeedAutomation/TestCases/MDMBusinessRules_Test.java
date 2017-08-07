@@ -364,7 +364,7 @@ public class MDMBusinessRules_Test {
 
     }
 
-    //@Test
+    //@Test    
     public void UK_MDM_06_VerifyTestNameForAllName() {
         testCaseName = "SCV-2676,MDM-06 Verify Dummy is nulled for Middle Name";
 
@@ -405,6 +405,7 @@ public class MDMBusinessRules_Test {
     }
     
     //@Test
+    //Author Anand
     public void UK_MDM_11_UKPhoneNumberGreaterThan12Chars() {
         testCaseName = "SCV-XXX,MDM-11 Verify phone number is trimmed if it contains more than 12 chars ";
 
@@ -448,6 +449,7 @@ public class MDMBusinessRules_Test {
     }
     
     //@Test
+    //Author Anand
     public void UK_MDM_13_UKEmailCorrectDomain() {
         testCaseName = "SCV-XXX,MDM-13 Verify email domain is corrected from ukk to uk ";
 
@@ -490,6 +492,7 @@ public class MDMBusinessRules_Test {
     }
     
     @Test
+    //Author Anand
     public void UK_MDM_14_UKEmailCorrectDomain() {
         testCaseName = "SCV-XXX,MDM-14 Verify email domain is corrected from uuk to uk ";
 
