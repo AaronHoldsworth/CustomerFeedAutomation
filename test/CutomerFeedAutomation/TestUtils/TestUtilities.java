@@ -225,7 +225,24 @@ public class TestUtilities {
         return drools;
     }
     
-    
-    
-
+    public List<String> GetRefValues(JSONObject jsonRecord) throws JSONException {
+        JSONArray droolsArray;
+        List<String> drools = new ArrayList<>();
+       try
+       {
+        droolsArray = jsonRecord.getJSONArray("value");
+        for (Object o : droolsArray) {
+            if (o instanceof JSONObject) {
+                JSONObject droolsTrace = (JSONObject) o;
+                drools.add(droolsTrace.getString("ruleName"));
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           drools = null;
+       }
+        return drools;
+    }
 }

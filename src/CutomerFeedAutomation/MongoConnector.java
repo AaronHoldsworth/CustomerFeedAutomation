@@ -8,6 +8,7 @@ package CutomerFeedAutomation;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
@@ -20,8 +21,10 @@ public class MongoConnector {
 
     private MongoCollection<Document> _collection = null;
     private MongoCollection<Document> _droolsCollection = null;
+    private MongoCollection<Document> _refDataCollection = null;
     private Document _record = null;
     private Document _droolsTrace = null;
+    private Document _refData = null;
     private String _userName;
     private String _password;
     private String _database;
@@ -54,6 +57,7 @@ public class MongoConnector {
 
             _collection = database.getCollection("customer_UK");
             _droolsCollection = database.getCollection("droolsTrace");
+            _refDataCollection = database.getCollection("refData");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -85,6 +89,12 @@ public class MongoConnector {
         FindDroolsTrace(key, sourceId);
 
         return _droolsTrace;
+    }
+    
+    public Document getReferenceData(String sourceId) {
+        FindIterable<Document> findIterable = _refDataCollection.find(eq("key",sourceId));
+        _refData = findIterable.first();
+        return _refData;
     }
 
     private void FindRecord(String key, String id) {

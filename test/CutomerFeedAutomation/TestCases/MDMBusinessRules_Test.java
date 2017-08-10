@@ -491,7 +491,7 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = ruleExecuted;
     }
     
-    @Test
+    //@Test
     //Author Anand
     public void UK_MDM_14_UKEmailCorrectDomain() {
         testCaseName = "SCV-XXX,MDM-14 Verify email domain is corrected from uuk to uk ";
@@ -532,5 +532,56 @@ public class MDMBusinessRules_Test {
         assertTrue(expectedEmail);
         assertTrue(ruleExecuted);
         testWasSuccesful = ruleExecuted;
+    }
+    
+    //@Test
+    //Author Anand
+    public void UK_MDM_15_UKEmailTLDNegative() {
+        testCaseName = "SCV-XXX,MDM-15 Any email must have valid Top Level Domain ";
+
+        //CreateMessageForTest("AutomationXmls\\MDM15_EmailTopLevelDomain_Negative.xml");
+
+        //utilities.WaitForMessage();
+        systemId = "30110000015";
+        
+        boolean ruleExecuted = false;
+        Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
+        String jsonString = droolsRecord.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-15"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
+    }
+    
+    @Test
+    //Author Anand
+    public void UK_MDM_15_UKEmailTLDReferenceData() {
+        testCaseName = "SCV-XXX,MDM-15 Checking the reference data ";
+        systemId = "/UK/valid/topLevelDomains";
+        boolean refData = false;
+                
+        Document referenceObject = mongoConnector.getReferenceData(systemId);
+        String jsonString = referenceObject.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        JSONArray refValues = jsonRecord.getJSONArray("value");
+        if (refValues.length()==1425) {
+            refData = true;
+        }
+        
+        for (Object value : refValues) {
+            if (Pattern.compile(Pattern.quote(".aaa"), Pattern.CASE_INSENSITIVE).matcher(value.toString()).find())
+            {
+                refData = true;
+                break;
+            }
+        }
+        assertTrue(refData);
+        testWasSuccesful = refData;
     }
 }
