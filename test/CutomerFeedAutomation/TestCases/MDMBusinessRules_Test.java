@@ -94,7 +94,7 @@ public class MDMBusinessRules_Test {
     @Before
     public void setUp() {
 
-    }
+    };
 
     @After
     public void tearDown() {
@@ -104,6 +104,7 @@ public class MDMBusinessRules_Test {
         resultsList.add(result);
 
     }
+       
 
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
@@ -440,7 +441,87 @@ public class MDMBusinessRules_Test {
         assertTrue(phoneNull);
         assertTrue(ruleExecuted);
         testWasSuccesful = ruleExecuted;
-
     }
+    
+    @Test
+    public void UK_MDM_13_UKEmailCorrectDomain() {
+        testCaseName = "SCV-XXX,MDM-13 Verify email domain is corrected from ukk to uk ";
 
+        CreateMessageForTest("AutomationXmls\\MDM13_EmailCorrectDomain_ukk.xml");
+
+        utilities.WaitForMessage();
+  
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        CheckTibcoSuccess();
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+        boolean expectedEmail = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+
+        List<String> emails = utilities.GetContactPoints(jsonRecord,eContactType.email);
+        
+        for (String email : emails) {
+            if (email.contains(".ukk")) {
+                expectedEmail = false;
+            }else expectedEmail = true;
+        }
+        
+        Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
+        jsonString = droolsRecord.toJson();
+        jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-13"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(expectedEmail);
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
+    }
+    
+    @Test
+    public void UK_MDM_14_UKEmailCorrectDomain() {
+        testCaseName = "SCV-XXX,MDM-14 Verify email domain is corrected from uuk to uk ";
+
+        CreateMessageForTest("AutomationXmls\\MDM13_EmailCorrectDomain_ukk.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getMongoRecordByMasterId(systemId);
+
+        CheckTibcoSuccess();
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+        boolean expectedEmail = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+
+        List<String> emails = utilities.GetContactPoints(jsonRecord,eContactType.email);
+        
+        for (String email : emails) {
+            if (email.contains(".uuk")) {
+                expectedEmail = false;
+            }else expectedEmail = true;
+        }
+        
+        Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
+        jsonString = droolsRecord.toJson();
+        jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-14"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(expectedEmail);
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
+    }
 }
