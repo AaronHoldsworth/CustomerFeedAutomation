@@ -13,9 +13,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.Map;
-import java.util.regex.Pattern;
-import org.bson.Document;
 import java.util.concurrent.ThreadLocalRandom;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,6 +77,28 @@ public class TestUtilities {
         }
     }
 
+    
+    public List<String> GetDroolsTraceMessage(JSONObject jsonRecord) throws JSONException {
+        JSONArray droolsArray;
+        List<String> drools = new ArrayList<>();
+       try
+       {
+        droolsArray = jsonRecord.getJSONObject("droolsTrace").getJSONArray("droolsTrace");
+        for (Object o : droolsArray) {
+            if (o instanceof JSONObject) {
+                JSONObject droolsTrace = (JSONObject) o;
+                drools.add(droolsTrace.getString("ruleName"));
+            }
+        }
+       }
+       catch (Exception e)
+       {
+           System.out.println(e.getMessage());
+           drools = null;
+       }
+        return drools;
+    }
+    
     public List<String> GetExtraNames(JSONObject jsonRecord) throws JSONException {
         JSONArray extraNames;
         List<String> middleNames = new ArrayList<>();
@@ -202,30 +221,5 @@ public class TestUtilities {
            emailAddress = null;
        }
         return emailAddress;
-    }
-    
-    public List<String> GetDroolsTraceMessage(JSONObject jsonRecord) throws JSONException {
-        JSONArray droolsArray;
-        List<String> drools = new ArrayList<>();
-       try
-       {
-        droolsArray = jsonRecord.getJSONObject("droolsTrace").getJSONArray("droolsTrace");
-        for (Object o : droolsArray) {
-            if (o instanceof JSONObject) {
-                JSONObject droolsTrace = (JSONObject) o;
-                drools.add(droolsTrace.getString("ruleName"));
-            }
-        }
-       }
-       catch (Exception e)
-       {
-           System.out.println(e.getMessage());
-           drools = null;
-       }
-        return drools;
-    }
-    
-    
-    
-
+    } 
 }

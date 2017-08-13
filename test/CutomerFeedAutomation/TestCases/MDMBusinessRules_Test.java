@@ -27,7 +27,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 /**
  *
  * @author TTGAHX
@@ -94,7 +93,9 @@ public class MDMBusinessRules_Test {
     @Before
     public void setUp() {
 
-    };
+    }
+
+    ;
 
     @After
     public void tearDown() {
@@ -104,7 +105,6 @@ public class MDMBusinessRules_Test {
         resultsList.add(result);
 
     }
-       
 
     @Test
     public void UK_MDM_01_RecordWithAllMandatoryElements() {
@@ -187,7 +187,81 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = (record == null);
 
     }
-        
+
+    @Test
+    public void UK_MDM_02_VerifyFirstNameValidCharacters() {
+        testCaseName = "SCV-XXX,MDM-02 Verify first name have valid character";
+
+        CreateMessageForTest("AutomationXmls\\MDM02_FirstName_InvalidCharacters.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getDroolsTrace(systemId);
+
+        String firstNameValue;
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        try {
+            firstNameValue = jsonRecord.getJSONObject("customer").getString("firstName");
+        } catch (Exception e) {
+            firstNameValue = null;
+        }
+
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-02"), Pattern.CASE_INSENSITIVE).matcher(rule).find()) {
+                ruleExecuted = true;
+            }
+        }
+
+        CheckTibcoSuccess();
+
+        assertNull(firstNameValue);
+        assertTrue(ruleExecuted);
+
+    }
+
+    @Test
+    public void UK_MDM_02_VerifyLasttNameValidCharacters() {
+
+        testCaseName = "SCV-XXX,MDM-02 Verify Last name have valid character";
+
+        CreateMessageForTest("AutomationXmls\\MDM02_LastName_InvalidCharacters.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getDroolsTrace(systemId);
+
+        String lastNameValue;
+        String jsonString = record.toJson();
+        boolean ruleExecuted = false;
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        try {
+            lastNameValue = jsonRecord.getJSONObject("customer").getString("lastName");
+        } catch (Exception e) {
+            lastNameValue = null;
+        }
+
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-02"), Pattern.CASE_INSENSITIVE).matcher(rule).find()) {
+                ruleExecuted = true;
+            }
+        }
+
+        CheckTibcoSuccess();
+
+        assertNull(lastNameValue);
+        assertTrue(ruleExecuted);
+    }
+
     @Test
     public void UK_MDM_04_VerifySpecialCharacterstTrimmedForAllNames() {
         testCaseName = "SCV-XXX,MDM-04 Verify Speica Character are trimmed in all names ";
@@ -249,17 +323,17 @@ public class MDMBusinessRules_Test {
         List<String> middleNames = utilities.GetExtraNames(jsonRecord);
 
         for (String name : middleNames) {
-            if (name.equalsIgnoreCase(genName+"'ns")) {
+            if (name.equalsIgnoreCase(genName + "'ns")) {
                 expectedMiddleName = true;
             }
         }
 
         CheckTibcoSuccess();
 
-        assertTrue(firstNameValue.equalsIgnoreCase(genName+"'s"));
-        testWasSuccesful = (firstNameValue.equalsIgnoreCase(genName+"'s"));
-        assertTrue(lastNameValue.equalsIgnoreCase(genName+"-e"));
-        testWasSuccesful = (lastNameValue.equalsIgnoreCase(genName+"-e"));
+        assertTrue(firstNameValue.equalsIgnoreCase(genName + "'s"));
+        testWasSuccesful = (firstNameValue.equalsIgnoreCase(genName + "'s"));
+        assertTrue(lastNameValue.equalsIgnoreCase(genName + "-e"));
+        testWasSuccesful = (lastNameValue.equalsIgnoreCase(genName + "-e"));
         assertTrue(expectedMiddleName);
 
     }
@@ -357,6 +431,7 @@ public class MDMBusinessRules_Test {
 
         assertTrue(firstNameValue.equalsIgnoreCase(genName));
         assertTrue(lastNameValue.equalsIgnoreCase(genName));
+
         testWasSuccesful = middleNames.isEmpty();
 
     }
@@ -373,7 +448,7 @@ public class MDMBusinessRules_Test {
 
         String firstNameValue;
         String lastNameValue;
-         List<String> middleNames = new ArrayList<>();
+        List<String> middleNames = new ArrayList<>();
         String jsonString = record.toJson();
 
         JSONObject jsonRecord = new JSONObject(jsonString);
@@ -394,11 +469,40 @@ public class MDMBusinessRules_Test {
 
         CheckTibcoSuccess();
 
-                assertTrue(middleNames.isEmpty());
+        assertTrue(middleNames.isEmpty());
 
         assertNull(firstNameValue);
         assertNull(lastNameValue);
 
+    }
+
+    @Test
+    public void UK_MDM_11_VerifyUKMobileLessThan12Chars() {
+        testCaseName = "SCV-XXX,MDM-11 Verify Mobile Number null ";
+
+        CreateMessageForTest("AutomationXmls\\MDM11_MobileNumberNull.xml");
+
+        utilities.WaitForMessage();
+
+        Document record = mongoConnector.getDroolsTrace(systemId);
+
+        String mobileNumberValue;
+        boolean ruleExecuted = false;
+
+        String jsonString = record.toJson();
+
+        JSONObject jsonRecord = new JSONObject(jsonString);
+
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-11"), Pattern.CASE_INSENSITIVE).matcher(rule).find()) {
+                ruleExecuted = true;
+            }
+        }
+
+        CheckTibcoSuccess();
+        assertTrue(ruleExecuted);
     }
     
     @Test
@@ -418,23 +522,21 @@ public class MDMBusinessRules_Test {
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
+        List<String> phoneNumbers = utilities.GetContactPoints(jsonRecord, eContactType.phoneNumber);
 
-        List<String> phoneNumbers = utilities.GetContactPoints(jsonRecord,eContactType.phoneNumber);
-        
-        if(phoneNumbers.isEmpty())
-        {
+        if (phoneNumbers.isEmpty()) {
             phoneNull = true;
+        } else {
+            assertTrue(phoneNull);
+            testWasSuccesful = phoneNull;
         }
-        else{assertTrue(phoneNull);
-            testWasSuccesful = phoneNull;}
-        
+
         Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
         jsonString = droolsRecord.toJson();
         jsonRecord = new JSONObject(jsonString);
         List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
         for (String rule : rules) {
-            if (Pattern.compile(Pattern.quote("UK-TRANS-11"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
-            {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-11"), Pattern.CASE_INSENSITIVE).matcher(rule).find()) {
                 ruleExecuted = true;
             }
         }
@@ -442,7 +544,7 @@ public class MDMBusinessRules_Test {
         assertTrue(ruleExecuted);
         testWasSuccesful = ruleExecuted;
     }
-    
+
     @Test
     public void UK_MDM_13_UKEmailCorrectDomain() {
         testCaseName = "SCV-XXX,MDM-13 Verify email domain is corrected from ukk to uk ";
@@ -450,7 +552,7 @@ public class MDMBusinessRules_Test {
         CreateMessageForTest("AutomationXmls\\MDM13_EmailCorrectDomain_ukk.xml");
 
         utilities.WaitForMessage();
-  
+
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
         CheckTibcoSuccess();
@@ -460,22 +562,22 @@ public class MDMBusinessRules_Test {
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
+        List<String> emails = utilities.GetContactPoints(jsonRecord, eContactType.email);
 
-        List<String> emails = utilities.GetContactPoints(jsonRecord,eContactType.email);
-        
         for (String email : emails) {
             if (email.contains(".ukk")) {
                 expectedEmail = false;
-            }else expectedEmail = true;
+            } else {
+                expectedEmail = true;
+            }
         }
-        
+
         Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
         jsonString = droolsRecord.toJson();
         jsonRecord = new JSONObject(jsonString);
         List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
         for (String rule : rules) {
-            if (Pattern.compile(Pattern.quote("UK-TRANS-13"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
-            {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-13"), Pattern.CASE_INSENSITIVE).matcher(rule).find()) {
                 ruleExecuted = true;
             }
         }
@@ -483,7 +585,7 @@ public class MDMBusinessRules_Test {
         assertTrue(ruleExecuted);
         testWasSuccesful = ruleExecuted;
     }
-    
+
     @Test
     public void UK_MDM_14_UKEmailCorrectDomain() {
         testCaseName = "SCV-XXX,MDM-14 Verify email domain is corrected from uuk to uk ";
@@ -501,22 +603,22 @@ public class MDMBusinessRules_Test {
 
         JSONObject jsonRecord = new JSONObject(jsonString);
 
+        List<String> emails = utilities.GetContactPoints(jsonRecord, eContactType.email);
 
-        List<String> emails = utilities.GetContactPoints(jsonRecord,eContactType.email);
-        
         for (String email : emails) {
             if (email.contains(".uuk")) {
                 expectedEmail = false;
-            }else expectedEmail = true;
+            } else {
+                expectedEmail = true;
+            }
         }
-        
+
         Document droolsRecord = mongoConnector.getDroolsTrace(systemId);
         jsonString = droolsRecord.toJson();
         jsonRecord = new JSONObject(jsonString);
         List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
         for (String rule : rules) {
-            if (Pattern.compile(Pattern.quote("UK-TRANS-14"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
-            {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-14"), Pattern.CASE_INSENSITIVE).matcher(rule).find()) {
                 ruleExecuted = true;
             }
         }
@@ -524,4 +626,6 @@ public class MDMBusinessRules_Test {
         assertTrue(ruleExecuted);
         testWasSuccesful = ruleExecuted;
     }
+
+
 }
