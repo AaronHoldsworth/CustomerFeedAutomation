@@ -28,9 +28,9 @@ $TextBody:
 	<ns0:customers>
 		<ns0:customer Version="20170616081001" CustomerLevel="Silver">
 			<ns1:customerId xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
-				<ns1:masterKey SystemOwner="UK" System="CDM" Id="20110000039"/>
+				<ns1:masterKey SystemOwner="UK" System="CDM" Id=":systemid:"/>
 				<ns1:sourceKeys>
-					<ns1:key SystemOwner="UK" System="CDM" Id="20110000039"/>
+					<ns1:key SystemOwner="UK" System="CDM" Id=":systemid:"/>
 				</ns1:sourceKeys>
 			</ns1:customerId>
 			<ns1:owner xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
@@ -38,9 +38,9 @@ $TextBody:
 				<ns1:name>TUI UK &amp; I</ns1:name>
 			</ns1:owner>
 			<ns1:customerFacingIdentifier xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0"/>
-			<ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">phone</ns1:firstName>
+			<ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">:genName:</ns1:firstName>
 			<ns1:initials xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">T</ns1:initials>
-			<ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">chars</ns1:lastName>
+			<ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">:genName:</ns1:lastName>
 			<ns1:gender xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Male</ns1:gender>
 			<ns1:dateOfBirth xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">1917-09-13</ns1:dateOfBirth>
 			<ns1:genderTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Mr</ns1:genderTitle>

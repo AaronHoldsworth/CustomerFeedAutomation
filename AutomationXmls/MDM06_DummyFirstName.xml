@@ -40,14 +40,14 @@ $TextBody:
             <ns1:customerFacingIdentifier xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0"/>
             <ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Dummy</ns1:firstName>
             <ns1:initials xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">DS</ns1:initials>
-            <ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Sher</ns1:lastName>
+            <ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">:genName:</ns1:lastName>
             <ns1:gender xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Male</ns1:gender>
             <ns1:genderTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Mr</ns1:genderTitle>
             <ns1:extraTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Mr</ns1:extraTitle>
             <ns1:extraNames xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
                 <ns1:extraName>
                     <ns1:nameType>Middle Name</ns1:nameType>
-                    <ns1:name>Jimmy</ns1:name>
+                    <ns1:name>:genName:</ns1:name>
                 </ns1:extraName>
             </ns1:extraNames>
             <ns1:status xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Live</ns1:status>

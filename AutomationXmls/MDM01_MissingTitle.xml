@@ -38,9 +38,9 @@ $TextBody:
 				<ns1:name>TUI UK &amp; I</ns1:name>
 			</ns1:owner>
 			<ns1:customerFacingIdentifier xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0"/>
-			<ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Bill</ns1:firstName>
+			<ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">:genName:</ns1:firstName>
 			<ns1:initials xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">BB</ns1:initials>
-			<ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Bailey</ns1:lastName>
+			<ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">:genName:</ns1:lastName>
 			<ns1:gender xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Male</ns1:gender>
 			<ns1:status xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Live</ns1:status>
 			<ns1:contactPoints xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
