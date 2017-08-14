@@ -5,6 +5,7 @@
  */
 package CutomerFeedAutomation.TestUtils;
 
+import CutomerFeedAutomation.TestCases.MDMBusinessRules_Test.*;
 import java.util.HashMap;
 
 /**
@@ -27,6 +28,25 @@ public class EMSMessageHandler {
 
         _messageBody = _messageBody.replaceAll(":systemid:", systemId);
         _messageBody = _messageBody.replaceAll(":genName:", generatedName);
+    }
+    
+    public void CreateEMSMessage(String filename, HashMap<customerXMLkeys, String> xmlKeyVal) {
+        String file = utilities.LoadTestFile(filename);
+        String[] splitFile = file.split("\\$TextBody:");
+        String[] propertyList = splitFile[0].split("\\$Properties:")[1].split("\n");
+        _properties = CreatePropertiesHashMap(propertyList);
+        _messageBody = splitFile[1].trim();
+
+        _messageBody = _messageBody.replaceAll(":systemid:", xmlKeyVal.get(customerXMLkeys.systemId));
+        _messageBody = _messageBody.replaceAll(":firstName:", xmlKeyVal.get(customerXMLkeys.firstName));
+        _messageBody = _messageBody.replaceAll(":lastName:", xmlKeyVal.get(customerXMLkeys.lastName));
+        _messageBody = _messageBody.replaceAll(":middleName:", xmlKeyVal.get(customerXMLkeys.middleName));
+        _messageBody = _messageBody.replaceAll(":DOB:", xmlKeyVal.get(customerXMLkeys.DOB));
+        _messageBody = _messageBody.replaceAll(":email:", xmlKeyVal.get(customerXMLkeys.email));
+        _messageBody = _messageBody.replaceAll(":mobile:", xmlKeyVal.get(customerXMLkeys.mobile));
+        _messageBody = _messageBody.replaceAll(":landline:", xmlKeyVal.get(customerXMLkeys.landline));
+        _messageBody = _messageBody.replaceAll(":genderTitle:", xmlKeyVal.get(customerXMLkeys.genderTitle));
+        _messageBody = _messageBody.replaceAll(":extraTitle:", xmlKeyVal.get(customerXMLkeys.extraTitle));
     }
 
     public HashMap<String, String> CreatePropertiesHashMap(String[] propertyList) {

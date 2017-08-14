@@ -12,8 +12,10 @@ import CutomerFeedAutomation.TestUtils.ResultsGenerator;
 import CutomerFeedAutomation.TestUtils.TestUtilities;
 import CutomerFeedAutomation.TestUtils.TestUtilities.eContactType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 import junit.framework.TestResult;
 import org.bson.Document;
@@ -50,17 +52,46 @@ public class MDMBusinessRules_Test {
     private boolean connectionSuccessful;
     private String genName;
     private boolean messageSent;
+    public static HashMap<customerXMLkeys, String> xmlKeyVal = new HashMap<>();
+    public static enum customerXMLkeys {
+        systemId,
+        firstName,
+        lastName,
+        middleName,
+        DOB,
+        genCategory,
+        email,
+        mobile,
+        landline,
+        genderTitle,
+        extraTitle;
+    }
 
     public MDMBusinessRules_Test() {
         utilities = new TestUtilities();
-        //emsConnector = new EMSConnector();
-        emsConnector = null;
-        mongoConnector = new MongoConnector();
-        mongoConnector.getMongoConnection();
-        //connectionSuccessful = emsConnector.ConnectToGIP();
+        emsConnector = new EMSConnector();
+        //emsConnector = null;
+        //mongoConnector = new MongoConnector();
+        mongoConnector = null;
+        //mongoConnector.getMongoConnection();
+        connectionSuccessful = emsConnector.ConnectToGIP();
 
     }
-
+    
+    private void UpdateReusableMsgForTest() {       
+        
+        xmlKeyVal.put(customerXMLkeys.systemId, utilities.GenerateGuid());
+        xmlKeyVal.put(customerXMLkeys.firstName, utilities.GenerateName());
+        xmlKeyVal.put(customerXMLkeys.lastName, utilities.GenerateName());
+        xmlKeyVal.put(customerXMLkeys.middleName, utilities.GenerateName());
+        xmlKeyVal.put(customerXMLkeys.DOB, utilities.GenerateDOB());
+        xmlKeyVal.put(customerXMLkeys.email, utilities.GenerateName() + "@gmaail.com");
+        xmlKeyVal.put(customerXMLkeys.mobile, utilities.GeneratePhoneNumber());
+        xmlKeyVal.put(customerXMLkeys.landline, utilities.GeneratePhoneNumber());
+        xmlKeyVal.put(customerXMLkeys.genderTitle,"Mr.");
+        xmlKeyVal.put(customerXMLkeys.extraTitle,"MBA");        
+    }
+    
     private void CreateMessageForTest(String xmlPath) {
 
         systemId = utilities.GenerateGuid();
@@ -72,7 +103,15 @@ public class MDMBusinessRules_Test {
 
         messageSent = emsConnector.SendEmsMessageToC4C(properties, messageBody);
     }
-
+    
+    private void CreateMessageForTest(String xmlPath, HashMap<customerXMLkeys, String> xmlKeyVal) {
+        emsMessageHandler = new EMSMessageHandler();
+        emsMessageHandler.CreateEMSMessage(xmlPath, xmlKeyVal);
+        properties = emsMessageHandler.Properties();
+        messageBody = emsMessageHandler.MessageBody();
+        messageSent = emsConnector.SendEmsMessageToC4C(properties, messageBody);
+    }
+    
     private void CheckTibcoSuccess() {
         if (!connectionSuccessful) {
             fail("Failed to create TIBCO Connection");
@@ -103,6 +142,10 @@ public class MDMBusinessRules_Test {
 
         String result = testCaseName + "," + testCaseResult + "," + systemId;
         resultsList.add(result);
+        
+        if (!testWasSuccesful) {
+            RES_GEN.WriteMessageToFile(messageBody,testCaseName);
+        }
 
     }
     
@@ -559,7 +602,7 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = ruleExecuted;
     }
     
-    @Test
+    //@Test
     //Author Anand
     public void UK_MDM_15_UKEmailTLDReferenceData() {
         testCaseName = "SCV-XXX,MDM-15 Checking the reference data ";
@@ -583,5 +626,33 @@ public class MDMBusinessRules_Test {
         }
         assertTrue(refData);
         testWasSuccesful = refData;
+    }
+    
+    @Test
+    //Author Anand
+    public void UK_MDM_16_UKEmailSLDNegative() {
+        testCaseName = "SCV-XXX,MDM-16 Any email must have valid Second Level Domain ";
+        
+        
+        UpdateReusableMsgForTest();
+        xmlKeyVal.put(customerXMLkeys.email,xmlKeyVal.get(customerXMLkeys.firstName)+"@gmail.polic.com");
+        CreateMessageForTest("AutomationXmls\\Sample.xml", xmlKeyVal);
+        utilities.WaitForMessage();        
+        
+        xmlKeyVal.put(customerXMLkeys.systemId, "6f807ffe-f6ba-4513-bc4e-460011e283a6");
+        boolean ruleExecuted = false;
+        
+        Document droolsRecord = mongoConnector.getDroolsTrace(xmlKeyVal.get(customerXMLkeys.systemId));
+        String jsonString = droolsRecord.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-16"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
     }
 }

@@ -48,6 +48,20 @@ public class ResultsGenerator {
         }
 
     }
+    
+    public void WriteMessageToFile(String message, String xmlName) {
+        xmlName = dirPath + xmlName + ".xml";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(xmlName, true))) {
+
+            bw.write(message);
+            bw.newLine();
+            //bw.close();
+
+        } catch (IOException e) {
+
+        }
+
+    }
 
     private void CreateResultsFolderIfNotExist() {
         File theDir = new File(dirPath);

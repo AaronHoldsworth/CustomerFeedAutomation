@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:customerSourceEvent xmlns:ns0="http://xmlns.tui.com/api/tuigroup/cp/cmf/customer/2.0/customerSourceEvent">
+	<ns0:customers>
+		<ns0:customer Version="20170616081001" CustomerLevel="Silver">
+			<ns1:customerId xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:masterKey SystemOwner="UK" System="CDM" Id="4d16d4e4-1a6f-4da0-bb10-52cffe8ae7fe"/>
+				<ns1:sourceKeys>
+					<ns1:key SystemOwner="UK" System="CDM" Id="4d16d4e4-1a6f-4da0-bb10-52cffe8ae7fe"/>
+				</ns1:sourceKeys>
+			</ns1:customerId>
+			<ns1:owner xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:key SystemOwner="TUIAG" System="C4C" Id="UK"/>
+				<ns1:name>TUI UK &amp; I</ns1:name>
+			</ns1:owner>
+			<ns1:customerFacingIdentifier xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0"/>
+			<ns1:firstName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">UwrUtcCGNd</ns1:firstName>
+			<ns1:initials xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">T</ns1:initials>
+			<ns1:lastName xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">jPMSWDGCBu</ns1:lastName>
+			<ns1:gender xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Male</ns1:gender>
+			<ns1:dateOfBirth xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">2007-02-26</ns1:dateOfBirth>
+			<ns1:genderTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Mr.</ns1:genderTitle>			
+			<ns1:extraTitle xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">MBA</ns1:extraTitle>
+			<ns1:extraNames xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+                <ns1:extraName>
+                    <ns1:nameType>Middle Name</ns1:nameType>
+                    <ns1:name>NWMrNkpKFw</ns1:name>
+                </ns1:extraName>
+            </ns1:extraNames>
+			<ns1:status xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">Live</ns1:status>			
+			<ns1:contactPoints xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:contactPoint>
+					<ns2:priorityType xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">Low</ns2:priorityType>
+					<ns2:qualityLevel xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1</ns2:qualityLevel>
+					<ns2:contactEmailAddress xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">
+						<ns2:emailCategory>Work</ns2:emailCategory>
+						<ns2:emailAddress>
+							<ns2:email>UwrUtcCGNd@gmail.police.com</ns2:email>
+						</ns2:emailAddress>
+					</ns2:contactEmailAddress>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1078355773-Unknown-1081820128</ns2:correlationID>
+				</ns1:contactPoint>				
+				<ns1:contactPoint>
+					<ns2:priorityType xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">Low</ns2:priorityType>
+					<ns2:qualityLevel xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1</ns2:qualityLevel>
+					<ns2:contactAddress xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">
+						<ns2:addressCategory>Work</ns2:addressCategory>
+						<ns2:geographicalAddress>
+							<ns2:country>
+								<ns2:country/>
+								<ns2:isoCode-2la>GB</ns2:isoCode-2la>
+							</ns2:country>
+							<ns2:postCode>AB11 2EY</ns2:postCode>
+							<ns2:structuredAddress>
+								<ns2:buildingNumber>123</ns2:buildingNumber>
+								<ns2:buildingName/>
+								<ns2:subBuilding/>
+								<ns2:street>lie lie Bridge Road</ns2:street>
+								<ns2:subStreet/>
+								<ns2:town>LONDON</ns2:town>
+								<ns2:region>London</ns2:region>
+								<ns2:county/>
+								<ns2:poBox/>
+							</ns2:structuredAddress>
+						</ns2:geographicalAddress>
+					</ns2:contactAddress>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">5545603345470717952-1081820128-Unknown</ns2:correlationID>
+				</ns1:contactPoint>
+				<ns1:contactPoint>
+					<ns2:priorityType xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">Low</ns2:priorityType>
+					<ns2:qualityLevel xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1</ns2:qualityLevel>
+					<ns2:contactPhoneNumber xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">
+						<ns2:lineType>Mobile</ns2:lineType>
+						<ns2:phoneNumberCategory>Work</ns2:phoneNumberCategory>
+						<ns2:unStructuredPhoneNumber FormatType="Standard">
+							<ns2:phoneNumber>+444381565235</ns2:phoneNumber>
+						</ns2:unStructuredPhoneNumber>
+					</ns2:contactPhoneNumber>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1078355755-Unknown-1081820128</ns2:correlationID>
+				</ns1:contactPoint>
+				<ns1:contactPoint>
+					<ns2:priorityType xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">Low</ns2:priorityType>
+					<ns2:qualityLevel xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1</ns2:qualityLevel>
+					<ns2:contactPhoneNumber xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">
+						<ns2:lineType>Landline</ns2:lineType>
+						<ns2:phoneNumberCategory>Personal</ns2:phoneNumberCategory>
+						<ns2:unStructuredPhoneNumber FormatType="Standard">
+							<ns2:phoneNumber>+445627665608</ns2:phoneNumber>
+						</ns2:unStructuredPhoneNumber>
+					</ns2:contactPhoneNumber>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0">1078355755-Unknown-1081820152</ns2:correlationID>
+				</ns1:contactPoint>
+				<ns1:contactPoint>
+					<ns2:contactAccount xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0" Type="TUI Customer Account - Market">
+						<ns2:id/>
+					</ns2:contactAccount>
+					<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+				</ns1:contactPoint>
+			</ns1:contactPoints>
+			<ns1:profiles xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:profile>
+					<ns1:name>Customer Value Score</ns1:name>
+					<ns1:categoryName>Score</ns1:categoryName>
+					<ns1:value>
+						<ns1:value>B</ns1:value>
+					</ns1:value>
+				</ns1:profile>
+			</ns1:profiles>
+			<ns1:consents xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:consent>
+					<ns1:type>Marketing by Post</ns1:type>
+					<ns1:consent>true</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+				<ns1:consent>
+					<ns1:type>Marketing by Phone</ns1:type>
+					<ns1:consent>false</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+				<ns1:consent>
+					<ns1:type>Marketing by Email</ns1:type>
+					<ns1:consent>false</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+				<ns1:consent>
+					<ns1:type>Marketing by SMS</ns1:type>
+					<ns1:consent>false</ns1:consent>
+					<ns1:marketingConsent>
+						<ns1:contactPoints>
+							<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+						</ns1:contactPoints>
+					</ns1:marketingConsent>
+				</ns1:consent>
+			</ns1:consents>
+			<ns1:preferences xmlns:ns1="http://xmlns.tui.com/cdm/tuigroup/cp/customer/2.0">
+				<ns1:preference>
+					<ns1:type/>
+					<ns1:value/>
+					<ns1:contactPreferences>
+						<ns2:correlationID xmlns:ns2="http://xmlns.tui.com/cdm/tuigroup/cp/address/2.0"/>
+					</ns1:contactPreferences>
+				</ns1:preference>
+			</ns1:preferences>
+		</ns0:customer>
+	</ns0:customers>
+</ns0:customerSourceEvent>
