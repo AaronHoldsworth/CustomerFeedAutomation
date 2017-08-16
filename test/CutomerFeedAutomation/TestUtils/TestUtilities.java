@@ -75,6 +75,19 @@ public class TestUtilities {
         return generatedName.toString();
     }
     
+    public String GenerateName(int len)
+    {
+        char[] allowedChars = "abcedfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        StringBuilder generatedName = new StringBuilder();
+        
+        for(int i=0; i<len+1; i++)
+        {
+            generatedName.append(allowedChars[ThreadLocalRandom.current().nextInt(0, allowedChars.length-1)]);
+        }
+          
+        return generatedName.toString();
+    }
+    
     public String GenerateDOB(){
         Random  rnd;
         Date    dt;

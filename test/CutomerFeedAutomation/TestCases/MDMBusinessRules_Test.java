@@ -11,10 +11,14 @@ import CutomerFeedAutomation.MongoConnector;
 import CutomerFeedAutomation.TestUtils.ResultsGenerator;
 import CutomerFeedAutomation.TestUtils.TestUtilities;
 import CutomerFeedAutomation.TestUtils.TestUtilities.eContactType;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 import junit.framework.TestResult;
@@ -452,10 +456,10 @@ public class MDMBusinessRules_Test {
     public void UK_MDM_11_UKPhoneNumberGreaterThan12Chars() {
         testCaseName = "SCV-XXX,MDM-11 Verify phone number is trimmed if it contains more than 12 chars ";
 
-        //CreateMessageForTest("AutomationXmls\\MDM11_MoreThan12Chars.xml");
+        CreateMessageForTest("AutomationXmls\\MDM11_MoreThan12Chars.xml");
 
-        //utilities.WaitForMessage();
-        systemId = "20110000039";
+        utilities.WaitForMessage();
+        //systemId = "20110000039";
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
 
@@ -496,9 +500,9 @@ public class MDMBusinessRules_Test {
     public void UK_MDM_13_UKEmailCorrectDomain() {
         testCaseName = "SCV-XXX,MDM-13 Verify email domain is corrected from ukk to uk ";
 
-        //CreateMessageForTest("AutomationXmls\\MDM13_EmailCorrectDomain_ukk.xml");
+        CreateMessageForTest("AutomationXmls\\MDM13_EmailCorrectDomain_ukk.xml");
 
-        //utilities.WaitForMessage();
+        utilities.WaitForMessage();
         systemId = "20110000041";
 
         Document record = mongoConnector.getMongoRecordByMasterId(systemId);
@@ -605,7 +609,7 @@ public class MDMBusinessRules_Test {
     //@Test
     //Author Anand
     public void UK_MDM_15_UKEmailTLDReferenceData() {
-        testCaseName = "SCV-XXX,MDM-15 Checking the reference data ";
+        testCaseName = "SCV-XXX,MDM-15 Checking the reference data for Email TLD ";
         systemId = "/UK/valid/topLevelDomains";
         boolean refData = false;
                 
@@ -628,7 +632,7 @@ public class MDMBusinessRules_Test {
         testWasSuccesful = refData;
     }
     
-    @Test
+    //@Test
     //Author Anand
     public void UK_MDM_16_UKEmailSLDNegative() {
         testCaseName = "SCV-XXX,MDM-16 Any email must have valid Second Level Domain ";
@@ -637,9 +641,7 @@ public class MDMBusinessRules_Test {
         UpdateReusableMsgForTest();
         xmlKeyVal.put(customerXMLkeys.email,xmlKeyVal.get(customerXMLkeys.firstName)+"@gmail.polic.com");
         CreateMessageForTest("AutomationXmls\\Sample.xml", xmlKeyVal);
-        utilities.WaitForMessage();        
-        
-        xmlKeyVal.put(customerXMLkeys.systemId, "6f807ffe-f6ba-4513-bc4e-460011e283a6");
+        utilities.WaitForMessage();  
         boolean ruleExecuted = false;
         
         Document droolsRecord = mongoConnector.getDroolsTrace(xmlKeyVal.get(customerXMLkeys.systemId));
@@ -648,6 +650,110 @@ public class MDMBusinessRules_Test {
         List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
         for (String rule : rules) {
             if (Pattern.compile(Pattern.quote("UK-TRANS-16"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
+    }
+    
+    //@Test
+    //Author Anand
+    public void UK_MDM_16_UKEmailSLDReferenceData() {
+        testCaseName = "SCV-XXX,MDM-16 Checking the reference data for Email SLD ";
+        systemId = "/UK/valid/ukDomains";
+        boolean refData = false;
+                
+        Document referenceObject = mongoConnector.getReferenceData(systemId);
+        String jsonString = referenceObject.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        JSONArray refValues = jsonRecord.getJSONArray("value");
+                
+        if (refValues.length()==13) {
+            refData = true;
+        }
+        
+        for (Object value : refValues) {
+            if (Pattern.compile(Pattern.quote(".police.uk"), Pattern.CASE_INSENSITIVE).matcher(value.toString()).find())
+            {
+                refData = true;
+                break;
+            }
+        }
+        assertTrue(refData);
+        testWasSuccesful = refData;
+    }
+    
+    //@Test
+    //Author Anand
+    public void UK_MDM_17_UKEmailDummyValidation() {
+        testCaseName = "SCV-XXX,MDM-17 Email addresses should not be 'dummy' email addresses to null ";
+                
+        UpdateReusableMsgForTest();
+        xmlKeyVal.put(customerXMLkeys.email,"test@test.com");
+        CreateMessageForTest("AutomationXmls\\Sample.xml", xmlKeyVal);
+        utilities.WaitForMessage();  
+        
+        boolean ruleExecuted = false;
+        Document droolsRecord = mongoConnector.getDroolsTrace(xmlKeyVal.get(customerXMLkeys.systemId));
+        String jsonString = droolsRecord.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-17"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
+            {
+                ruleExecuted = true;
+            }
+        }
+        assertTrue(ruleExecuted);
+        testWasSuccesful = ruleExecuted;
+    }
+    
+    //@Test
+    //Author Anand
+    public void UK_MDM_17_UKEmailDymmyReferenceData() {
+        testCaseName = "SCV-XXX,MDM-16 Checking the reference data for dummy Emails ";
+        systemId = "/UK/invalid/dummyEmails";
+        boolean refData = false;
+                
+        Document referenceObject = mongoConnector.getReferenceData(systemId);
+        String jsonString = referenceObject.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        JSONArray refValues = jsonRecord.getJSONArray("value");
+                
+        if (refValues.length()==6) {
+            refData = true;
+        }
+        
+        for (Object value : refValues) {
+            if (Pattern.compile(Pattern.quote("test@dummy.com"), Pattern.CASE_INSENSITIVE).matcher(value.toString()).find())
+            {
+                refData = true;
+                break;
+            }
+        }
+        assertTrue(refData);
+        testWasSuccesful = refData;
+    }
+    
+    @Test
+    //Author Anand
+    public void UK_MDM_18_UKEmailLengthLessThan250Chars_Validation() {
+        testCaseName = "SCV-XXX,MDM-18 Email length must be 254 characters or less ";
+                
+        UpdateReusableMsgForTest();
+        xmlKeyVal.put(customerXMLkeys.email, utilities.GenerateName(249) + "@gmail.com");
+        CreateMessageForTest("AutomationXmls\\Sample.xml", xmlKeyVal);
+        utilities.WaitForMessage();  
+        
+        boolean ruleExecuted = false;
+        Document droolsRecord = mongoConnector.getDroolsTrace(xmlKeyVal.get(customerXMLkeys.systemId));
+        String jsonString = droolsRecord.toJson();
+        JSONObject jsonRecord = new JSONObject(jsonString);
+        List<String> rules = utilities.GetDroolsTraceMessage(jsonRecord);
+        for (String rule : rules) {
+            if (Pattern.compile(Pattern.quote("UK-TRANS-18"), Pattern.CASE_INSENSITIVE).matcher(rule).find())
             {
                 ruleExecuted = true;
             }
